@@ -1,19 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- Panel Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/background"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="@string/title"
+            android:textAppearance="@style/title"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <!--  область с кнопками -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
+
+        <!--  Поиск -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/search_button"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/button_background"
+            android:text="@string/search"
+            android:textColor="@color/text_color"
+            android:textSize="22sp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_search"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@color/icon_color" />
+
+        <!--  Медиатека -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/media_button"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/button_background"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_media"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@color/icon_color"
+            android:text="@string/media"
+            android:textColor="@color/text_color"
+            android:textAppearance="@style/button_text" />
+
+        <!--  Настройки -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/button_background"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_settings"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@color/icon_color"
+            android:text="@string/settings"
+            android:textColor="@color/text_color"
+            android:textAppearance="@style/button_text" />
+
+    </LinearLayout>
+
+</LinearLayout>
