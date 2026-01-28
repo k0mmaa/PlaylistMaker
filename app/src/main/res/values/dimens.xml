@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Заголовок -->
+    <dimen name="header_height">56dp</dimen>
+    <dimen name="header_padding_horizontal">16dp</dimen>
+
+    <!-- Элементы заголовка -->
+    <dimen name="header_button_size">48dp</dimen>
+    <dimen name="header_text_size">22sp</dimen>
+
+    <!-- Settings items -->
+    <dimen name="settings_item_height">61dp</dimen>
+    <dimen name="settings_item_margin_start">16dp</dimen>
+    <dimen name="settings_item_margin_end">16dp</dimen>
+    <dimen name="settings_item_spacing">24dp</dimen>
+
+    <!-- Text  -->
+    <dimen name="settings_text_width">300dp</dimen>
+    <dimen name="settings_text_height">19dp</dimen>
+
+    <!-- Icons -->
+    <dimen name="icon_size">24dp</dimen>
+
+    <!--  switch если оставлять кастомный. потом удалю -->
+    <dimen name="switch_container_width">56dp</dimen>
+    <dimen name="switch_container_height">40dp</dimen>
+    <dimen name="track_width">32dp</dimen>
+    <dimen name="track_height">12dp</dimen>
+    <dimen name="knob_size">18dp</dimen>
+    <dimen name="knob_elevation">3.1dp</dimen>
+
+
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+
+    <!-- Button -->
+    <dimen name="button_corner_radius">16dp</dimen>
+    <dimen name="button_text_size">22sp</dimen>
+
+    <!-- Если нужно адаптивные размеры для планшетов -->
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+</resources>
