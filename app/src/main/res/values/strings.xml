@@ -9,6 +9,8 @@
     <string name="support">Написать в поддержку</string>
     <string name="share_app">Поделиться приложением</string>
     <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="in_progress">Раздел в разработке</string>
+    <string name="back">Вернуться в Главное меню</string>
 </resources>
 
 
