@@ -40,6 +40,8 @@
     <!-- Если нужно адаптивные размеры для планшетов -->
     <dimen name="padding_large">24dp</dimen>
     <dimen name="margin_large">24dp</dimen>
+
+    <dimen name="icon_padding">8dp</dimen>
 </resources>
 
 <!-- test -->
