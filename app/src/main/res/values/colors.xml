@@ -14,4 +14,5 @@
     <color name="switch_bol">#00D6C3</color>
     <color name="switch_track">#E0E0E0</color>
     <color name="switch_thumb">#FFFFFF</color>
+    <color name="figma_arrow_color">#FF1A1B22</color>
 </resources>

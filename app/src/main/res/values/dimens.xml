@@ -42,6 +42,18 @@
     <dimen name="margin_large">24dp</dimen>
 
     <dimen name="icon_padding">8dp</dimen>
-</resources>
 
-<!-- test -->
+    <dimen name="container_height_weighted">0dp</dimen>
+
+
+    <dimen name="button_height_weighted">0dp</dimen>
+
+    <!-- Размеры кнопки НАЗАД окно Настройки -->
+    <dimen name="back_button_size">48dp</dimen>
+    <dimen name="back_button_padding">12dp</dimen>
+
+    <dimen name="header_text_height">48dp</dimen>
+
+
+
+</resources>

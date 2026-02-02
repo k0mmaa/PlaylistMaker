@@ -7,8 +7,8 @@ import com.google.android.material.button.MaterialButton
 
 class MediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
         val btnToMainActivity = findViewById<MaterialButton>(R.id.back_button)
