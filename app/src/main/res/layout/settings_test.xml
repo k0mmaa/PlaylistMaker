@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Header panel -->
+    <LinearLayout
+        android:id="@+id/panel_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/settings_item_spacing">
+
+        <!-- Back button and title container -->
+        <LinearLayout
+            android:id="@+id/layout_main"
+            android:layout_width="@dimen/settings_layout_width"
+            android:layout_height="@dimen/panel_header_height"
+            android:layout_weight="@integer/container_weight"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Back button -->
+            <LinearLayout
+                android:id="@+id/button_back"
+                android:layout_width="@dimen/panel_header_width"
+                android:layout_height="@dimen/panel_header_height"
+                android:clipToOutline="true"
+                android:gravity="center">
+
+                <!-- Icon container -->
+                <LinearLayout
+                    android:id="@+id/ic_24x24_ar"
+                    android:layout_width="@dimen/liner_icon_width"
+                    android:layout_height="@dimen/liner_icon_height"
+                    android:layout_margin="12dp"
+                    android:clipToOutline="true"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/vector_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_arrow_back_24" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Title container -->
+            <LinearLayout
+                android:id="@+id/x_panel_head_middle"
+                android:layout_width="@dimen/settings_layout_width"
+                android:layout_height="@dimen/panel_header_width"
+                android:layout_weight="@integer/container_weight"
+                android:gravity="center_vertical|start"
+                android:layout_marginEnd="52dp">
+
+                <!-- Text wrapper -->
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginEnd="86dp">
+
+                    <!-- Title text -->
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings"
+                        android:textAppearance="@style/title_settings"
+                        android:textColor="@color/black"
+                        android:gravity="center_vertical" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Dark mode setting -->
+    <LinearLayout
+        android:id="@+id/lists_dark_mode"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_item_height"
+        android:background="@color/white"
+        android:clipToOutline="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/settings_item_margin_start">
+
+        <TextView
+            android:id="@+id/ys_regular_dark"
+            android:layout_width="@dimen/textView_layout_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/container_weight"
+            android:text="@string/dark_mode"
+            android:textAppearance="@style/ys_regular_"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/textview_marginTop"
+            android:layout_marginBottom="@dimen/textview_marginBottom"
+            android:layout_marginEnd="38dp"/>
+
+        <!-- Switch for dark mode -->
+        <!-- увеличил  параметр  layout_height до 48, т.к. проект не компилировался с ошибкой dark_mode_switch <androidx.appcompat.widget.SwitchCompat>: Touch target size too small
+This item's height is 40dp. Consider making the height of this touch target 48dp or larger.
+Размеры уникальны - выносить в отдельный файл не стал-->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/dark_mode_switch"
+            android:layout_width="56dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="6dp"/>
+
+    </LinearLayout>
+
+    <!-- Share app setting -->
+    <LinearLayout
+        android:id="@+id/lists_shared_app"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_item_height"
+        android:background="@color/white"
+        android:clipToOutline="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/settings_item_margin_start"
+        >
+
+        <TextView
+            android:id="@+id/title_shared_app"
+            android:layout_width="@dimen/textView_layout_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/container_weight"
+            android:text="@string/share_app"
+            android:textAppearance="@style/ys_regular_"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/textview_marginTop"
+            android:layout_marginBottom="@dimen/textview_marginBottom"
+            android:layout_marginEnd="@dimen/textview_marginEnd"/>
+        <LinearLayout
+            android:id="@+id/liner_icon_shared_app"
+            android:layout_width="@dimen/liner_icon_width"
+            android:layout_height="@dimen/liner_icon_height"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/liner_icon_marginEnd">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share_24" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Helpdesk setting -->
+    <LinearLayout
+        android:id="@+id/lists_helpdesk"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_item_height"
+        android:background="@color/white"
+        android:clipToOutline="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/settings_item_margin_start">
+
+        <TextView
+            android:id="@+id/ys_regular_support"
+            android:layout_width="@dimen/textView_layout_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/container_weight"
+            android:text="@string/support"
+            android:textAppearance="@style/ys_regular_"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/textview_marginTop"
+            android:layout_marginBottom="@dimen/textview_marginBottom"
+            android:layout_marginEnd="@dimen/textview_marginEnd"/>
+        <LinearLayout
+            android:id="@+id/liner_icon_support"
+            android:layout_width="@dimen/liner_icon_width"
+            android:layout_height="@dimen/liner_icon_height"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/liner_icon_marginEnd">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_support_composite_24"
+            android:paddingTop="3.1dp"
+            android:paddingBottom="2dp"
+            android:paddingStart="2dp"
+            android:paddingEnd="2.9dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- User agreement setting -->
+    <LinearLayout
+        android:id="@+id/lists_user_agr"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_item_height"
+        android:background="@color/white"
+        android:clipToOutline="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/settings_item_margin_start"
+        >
+
+        <TextView
+            android:id="@+id/ys_regular_"
+            android:layout_width="@dimen/textView_layout_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/container_weight"
+            android:text="@string/user_agreement"
+            android:textAppearance="@style/ys_regular_"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/textview_marginTop"
+            android:layout_marginBottom="@dimen/textview_marginBottom"
+            android:layout_marginEnd="@dimen/textview_marginEnd"/>
+        <LinearLayout
+            android:id="@+id/liner_icon_agreement"
+            android:layout_width="@dimen/liner_icon_width"
+            android:layout_height="@dimen/liner_icon_height"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/liner_icon_marginEnd">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_forward_24"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

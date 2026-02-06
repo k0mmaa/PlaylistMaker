@@ -1,7 +1,7 @@
 package com.example.playlistmaker
 
 import android.os.Bundle
-import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,14 +13,14 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.header)) { v, insets ->
+        setContentView(R.layout.settings_test)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.panel_header)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.updatePadding(top = systemBars.top)
             insets
         }
 
-        val btnBackMainActivity = findViewById<ImageButton>(R.id.back_button)
+        val btnBackMainActivity = findViewById<LinearLayout>(R.id.button_back)
 
         btnBackMainActivity.setOnClickListener {
             finish()
