@@ -1,12 +1,13 @@
 package com.example.playlistmaker
 
+
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import com.google.android.material.appbar.MaterialToolbar
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -14,13 +15,13 @@ class SettingsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_test)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.panel_header)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.tool_bar)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(top = systemBars.top)
+            v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val btnBackMainActivity = findViewById<LinearLayout>(R.id.button_back)
+        val btnBackMainActivity = findViewById<MaterialToolbar>(R.id.tool_bar)
 
         btnBackMainActivity.setOnClickListener {
             finish()

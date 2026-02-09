@@ -11,4 +11,11 @@
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="in_progress">Раздел в разработке</string>
     <string name="back">Вернуться в Главное меню</string>
+
+
+    <!-- Email Support-->
+    <string name="Email">dmitri18@yandex.ru</string>
+    <string name="Subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+
+
 </resources>
