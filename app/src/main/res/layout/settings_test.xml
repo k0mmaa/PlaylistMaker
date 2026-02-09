@@ -11,7 +11,7 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/settings_item_spacing"
         android:minHeight="?attr/actionBarSize"
         android:contentInsetStart="0dp"
         app:navigationIcon="@drawable/ic_arrow_back_24"
