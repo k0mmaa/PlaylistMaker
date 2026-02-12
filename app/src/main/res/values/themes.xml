@@ -3,5 +3,12 @@
     <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="android:colorBackground">@color/yp_blue</item>
+
+        <!-- цвета текста -->
+        <item name="textColorPrimary">@color/yp_white</item>   <!-- текст на тулбаре -->
+        <item name="textColorSecondary">@color/yp_black</item> <!-- текст на кнопках -->
+
     </style>
 </resources>

@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Заголовок -->
-    <dimen name="header_height">56dp</dimen>
 
-    <!-- Settings items -->
-    <dimen name="panel_header_width">48dp</dimen>
-    <dimen name="panel_header_height">48dp</dimen>
 
     <dimen name="settings_item_height">61dp</dimen>
     <dimen name="settings_item_margin_start">16dp</dimen>
     <dimen name="settings_item_margin_end">16dp</dimen>
     <dimen name="settings_item_spacing">24dp</dimen>
-    <dimen name="settings_layout_width">0dp</dimen>
+
 
     <dimen name="textview_marginTop">21dp</dimen>
     <dimen name="textview_marginBottom">21dp</dimen>
@@ -24,11 +19,6 @@
 
     <!-- TextView Settings Activity Settings -->
     <dimen name="textView_layout_width">0dp</dimen>
-    <dimen name="textView_layout_weight">1</dimen>
-
-    <!-- Text  -->
-    <dimen name="settings_text_width">300dp</dimen>
-    <dimen name="settings_text_height">19dp</dimen>
 
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
@@ -38,6 +28,6 @@
     <dimen name="button_text_size">22sp</dimen>
 
     <dimen name="icon_padding">8dp</dimen>
-    <dimen name="container_height_weighted">0dp</dimen>
+
     <dimen name="button_height_weighted">0dp</dimen>
 </resources>

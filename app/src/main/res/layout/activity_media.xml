@@ -6,14 +6,15 @@
     android:id="@+id/parent_layout_media"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    tools:context=".SearchActivity"
+    android:background="@color/yp_white">
 
     <TextView
         android:id="@+id/progress_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/in_progress"
-        android:textAppearance="@style/ys_regular_"
+        android:textAppearance="@style/title"
         app:layout_constraintBottom_toTopOf="@+id/back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,9 +26,9 @@
         android:id="@id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/button_background"
+        android:backgroundTint="@color/yp_white"
         android:text="@string/back"
-        android:textColor="@color/text_color"
+        android:textColor="@color/yp_black"
         android:textSize="@dimen/button_text_size"
         app:cornerRadius="@dimen/button_corner_radius"
         app:layout_constraintBottom_toBottomOf="parent"

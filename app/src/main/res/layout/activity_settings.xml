@@ -4,7 +4,7 @@
     android:id="@+id/parent_layout_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/yp_white"
     android:orientation="vertical">
 
     <!-- MaterialToolbar (заголовок + back) -->
@@ -17,33 +17,20 @@
         android:contentInsetStart="0dp"
         app:navigationIcon="@drawable/ic_arrow_back_24"
         app:title="@string/settings"
-        app:titleTextAppearance="@style/title_settings"
-        app:titleTextColor="@color/black" />
+        app:titleTextAppearance="@style/title"
+        app:titleTextColor="@color/yp_black" />
 
     <!-- Dark mode setting -->
     <LinearLayout
         android:id="@+id/lists_dark_mode"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_item_height"
-        android:background="@color/white"
-        android:clipToOutline="true"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/settings_item_margin_start">
+        style="@style/SettingsItem">
 
         <TextView
             android:id="@+id/ys_regular_dark"
-            android:layout_width="@dimen/textView_layout_width"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/container_weight"
+            style="@style/SettingsItemText"
             android:text="@string/dark_mode"
-            android:textAppearance="@style/ys_regular_"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/textview_marginTop"
-            android:layout_marginBottom="@dimen/textview_marginBottom"
             android:layout_marginEnd="38dp"/>
 
-        <!-- Switch for dark mode -->
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/dark_mode_switch"
             android:layout_width="56dp"
@@ -55,69 +42,35 @@
     <!-- Share app setting -->
     <LinearLayout
         android:id="@+id/lists_shared_app"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_item_height"
-        android:background="@color/white"
-        android:clipToOutline="true"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/settings_item_margin_start"
-        >
-
+        style="@style/SettingsItem">
         <TextView
             android:id="@+id/title_shared_app"
-            android:layout_width="@dimen/textView_layout_width"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/container_weight"
-            android:text="@string/share_app"
-            android:textAppearance="@style/ys_regular_"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/textview_marginTop"
-            android:layout_marginBottom="@dimen/textview_marginBottom"
-            android:layout_marginEnd="@dimen/textview_marginEnd"/>
+            style="@style/SettingsItemText"
+            android:text="@string/share_app" />
         <LinearLayout
             android:id="@+id/liner_icon_shared_app"
-            android:layout_width="@dimen/liner_icon_width"
-            android:layout_height="@dimen/liner_icon_height"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/liner_icon_marginEnd">
-
+            style="@style/SettingsIconContainer">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_share_24" />
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- Helpdesk setting -->
     <LinearLayout
         android:id="@+id/lists_helpdesk"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_item_height"
-        android:background="@color/white"
-        android:clipToOutline="true"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/settings_item_margin_start">
+        style="@style/SettingsItem">
 
         <TextView
             android:id="@+id/ys_regular_support"
-            android:layout_width="@dimen/textView_layout_width"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/container_weight"
-            android:text="@string/support"
-            android:textAppearance="@style/ys_regular_"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/textview_marginTop"
-            android:layout_marginBottom="@dimen/textview_marginBottom"
-            android:layout_marginEnd="@dimen/textview_marginEnd"/>
+            style="@style/SettingsItemText"
+            android:text="@string/support" />
+
         <LinearLayout
             android:id="@+id/liner_icon_support"
-            android:layout_width="@dimen/liner_icon_width"
-            android:layout_height="@dimen/liner_icon_height"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/liner_icon_marginEnd">
+            style="@style/SettingsIconContainer">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,40 +78,21 @@
                 android:paddingTop="3.1dp"
                 android:paddingBottom="2dp"
                 android:paddingStart="2dp"
-                android:paddingEnd="2.9dp"/>
+                android:paddingEnd="2.9dp" />
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- User agreement setting -->
     <LinearLayout
         android:id="@+id/lists_user_agr"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_item_height"
-        android:background="@color/white"
-        android:clipToOutline="true"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/settings_item_margin_start"
-        >
-
+        style="@style/SettingsItem">
         <TextView
             android:id="@+id/ys_regular_"
-            android:layout_width="@dimen/textView_layout_width"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/container_weight"
-            android:text="@string/user_agreement"
-            android:textAppearance="@style/ys_regular_"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/textview_marginTop"
-            android:layout_marginBottom="@dimen/textview_marginBottom"
-            android:layout_marginEnd="@dimen/textview_marginEnd"/>
+            style="@style/SettingsItemText"
+            android:text="@string/user_agreement" />
         <LinearLayout
             android:id="@+id/liner_icon_agreement"
-            android:layout_width="@dimen/liner_icon_width"
-            android:layout_height="@dimen/liner_icon_height"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/liner_icon_marginEnd">
+            style="@style/SettingsIconContainer">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -166,8 +100,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                />
+                android:paddingEnd="8dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

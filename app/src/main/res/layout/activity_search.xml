@@ -4,7 +4,7 @@
     android:id="@+id/parent_layout_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/yp_white"
     android:orientation="vertical">
 
     <!-- MaterialToolbar (заголовок + back) -->
@@ -16,8 +16,8 @@
         android:contentInsetStart="0dp"
         app:navigationIcon="@drawable/ic_arrow_back_24"
         app:title="@string/search"
-        app:titleTextAppearance="@style/title_settings"
-        app:titleTextColor="@color/black" />
+        app:titleTextAppearance="@style/title"
+        app:titleTextColor="@color/yp_black" />
 
     <!-- Edit Text -->
     <EditText
@@ -51,7 +51,7 @@
         app:cornerRadius="@dimen/button_corner_radius"
         android:textAppearance="@style/button_text"
         android:textSize="@dimen/margin_medium"
-        android:textColor="@color/black"
+        android:textColor="@color/yp_black"
         android:layout_gravity="center_horizontal"
         android:visibility="gone"
     />
