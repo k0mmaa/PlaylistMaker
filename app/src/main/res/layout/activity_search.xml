@@ -1,39 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/parent_layout_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
+    <!-- MaterialToolbar (заголовок + back) -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/in_progress"
-        android:textAppearance="@style/ys_regular_"
-        app:layout_constraintBottom_toTopOf="@id/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_marginBottom="@dimen/margin_medium"/>
+        android:minHeight="?attr/actionBarSize"
+        android:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back_24"
+        app:title="@string/search"
+        app:titleTextAppearance="@style/title_settings"
+        app:titleTextColor="@color/black" />
+
+    <!-- Edit Text -->
+    <EditText
+        android:id="@+id/input_strings"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_search_18"
+        android:drawablePadding="8dp"
+        android:hint="@string/search"
+        android:textColorHint="@color/yp_text_gray"
+        android:drawableTint="@color/yp_text_gray"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@color/yp_light_gray"
+        android:maxLines="1"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@id/back_button"
+        android:id ="@+id/cleanStringSearchBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/button_background"
-        android:text="@string/back"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/button_text_size"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/clean_search_btn"
+        app:backgroundTint="@color/yp_light_gray"
         app:cornerRadius="@dimen/button_corner_radius"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view"
-        android:layout_marginTop="@dimen/margin_medium"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textAppearance="@style/button_text"
+        android:textSize="@dimen/margin_medium"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+    />
+</LinearLayout>

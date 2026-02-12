@@ -14,8 +14,22 @@
 
 
     <!-- Email Support-->
-    <string name="Email">dmitri18@yandex.ru</string>
-    <string name="Subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="email">dmitri18@yandex.ru</string>
+    <string name="subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="send_email">Отправить письмо</string>
+
+    
+    <!-- URL-address -->
+    <string name="url_address_curs">https://practicum.yandex.ru/android-developer/?from=catalog</string>
+
+    <!-- User agreement -->
+    <string name="agreement_url">https://yandex.ru/legal/practicum_offer/ru/</string>
+    <string name="read_agreemen">Открыть пользовательской соглашение</string>
+
+    <!-- Clean Search -->
+    <string name="clean_search_btn">Очистить поисковый запрос</string>
+
 
 
 </resources>
