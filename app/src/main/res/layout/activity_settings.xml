@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout_settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yp_white"
+    android:orientation="vertical">
+
+    <!-- MaterialToolbar (заголовок + back) -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/settings_item_spacing"
+        android:minHeight="?attr/actionBarSize"
+        android:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back_24"
+        app:title="@string/settings"
+        app:titleTextAppearance="@style/title"
+        app:titleTextColor="@color/yp_black" />
+
+    <!-- Dark mode setting -->
+    <LinearLayout
+        android:id="@+id/lists_dark_mode"
+        style="@style/SettingsItem">
+
+        <TextView
+            android:id="@+id/ys_regular_dark"
+            style="@style/SettingsItemText"
+            android:text="@string/dark_mode"
+            android:layout_marginEnd="38dp"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/dark_mode_switch"
+            android:layout_width="56dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="6dp"/>
+
+    </LinearLayout>
+
+    <!-- Share app setting -->
+    <LinearLayout
+        android:id="@+id/lists_shared_app"
+        style="@style/SettingsItem">
+        <TextView
+            android:id="@+id/title_shared_app"
+            style="@style/SettingsItemText"
+            android:text="@string/share_app" />
+        <LinearLayout
+            android:id="@+id/liner_icon_shared_app"
+            style="@style/SettingsIconContainer">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share_24" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Helpdesk setting -->
+    <LinearLayout
+        android:id="@+id/lists_helpdesk"
+        style="@style/SettingsItem">
+
+        <TextView
+            android:id="@+id/ys_regular_support"
+            style="@style/SettingsItemText"
+            android:text="@string/support" />
+
+        <LinearLayout
+            android:id="@+id/liner_icon_support"
+            style="@style/SettingsIconContainer">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_support_composite_24"
+                android:paddingTop="3.1dp"
+                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2.9dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- User agreement setting -->
+    <LinearLayout
+        android:id="@+id/lists_user_agr"
+        style="@style/SettingsItem">
+        <TextView
+            android:id="@+id/ys_regular_"
+            style="@style/SettingsItemText"
+            android:text="@string/user_agreement" />
+        <LinearLayout
+            android:id="@+id/liner_icon_agreement"
+            style="@style/SettingsIconContainer">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_forward_24"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

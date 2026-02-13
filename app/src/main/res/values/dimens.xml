@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <dimen name="settings_item_height">61dp</dimen>
+    <dimen name="settings_item_margin_start">16dp</dimen>
+    <dimen name="settings_item_margin_end">16dp</dimen>
+    <dimen name="settings_item_spacing">24dp</dimen>
+
+
+    <dimen name="textview_marginTop">21dp</dimen>
+    <dimen name="textview_marginBottom">21dp</dimen>
+    <dimen name="textview_marginEnd">44dp</dimen>
+
+    <!-- Liner Settings icons -->
+    <dimen name="liner_icon_height">24dp</dimen>
+    <dimen name="liner_icon_width">24dp</dimen>
+    <dimen name="liner_icon_marginEnd">12dp</dimen>
+
+    <!-- TextView Settings Activity Settings -->
+    <dimen name="textView_layout_width">0dp</dimen>
+
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+
+    <!-- Button -->
+    <dimen name="button_corner_radius">16dp</dimen>
+    <dimen name="button_text_size">22sp</dimen>
+
+    <dimen name="icon_padding">8dp</dimen>
+
+    <dimen name="button_height_weighted">0dp</dimen>
+</resources>

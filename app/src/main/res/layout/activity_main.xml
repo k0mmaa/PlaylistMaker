@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/parent_layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/yp_blue"
+    android:gravity="center"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/main_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/yp_blue"
+        app:title="@string/title"
+        app:titleTextAppearance="@style/title"
+        app:titleTextColor="@color/yp_white" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Search Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/search_button"
+        style="@style/MainMenuButton"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:text="@string/search"
+        app:icon="@drawable/ic_search_24" />
+
+    <!-- Media Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/media_button"
+        style="@style/MainMenuButton"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:text="@string/media"
+        app:icon="@drawable/ic_media_24"/>
+
+    <!-- Settings Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/settings_button"
+        style="@style/MainMenuButton"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:text="@string/settings"
+        app:icon="@drawable/ic_settings_24" />
+</LinearLayout>
