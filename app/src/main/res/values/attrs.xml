@@ -2,4 +2,6 @@
 <resources>
     <attr name="textColorPrimary" format="color" />
     <attr name="textColorSecondary" format="color" />
+    <attr name="settingsIconTint" format="color" />
+    <attr name="textColorHint" format="color" />
 </resources>

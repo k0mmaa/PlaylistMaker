@@ -4,7 +4,7 @@
     android:id="@+id/parent_layout_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yp_white"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
     <!-- MaterialToolbar (заголовок + back) -->
@@ -16,43 +16,46 @@
         android:contentInsetStart="0dp"
         app:navigationIcon="@drawable/ic_arrow_back_24"
         app:title="@string/search"
-        app:titleTextAppearance="@style/title"
-        app:titleTextColor="@color/yp_black" />
+        app:titleTextAppearance="@style/title" />
 
-    <!-- Edit Text -->
-    <EditText
-        android:id="@+id/input_strings"
+    <!-- TextInputLayout с поиском и кнопкой очистки -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_input_layout"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:drawableStart="@drawable/ic_search_18"
-        android:drawablePadding="8dp"
-        android:hint="@string/search"
-        android:textColorHint="@color/yp_text_gray"
-        android:drawableTint="@color/yp_text_gray"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="@color/yp_light_gray"
-        android:maxLines="1"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id ="@+id/cleanStringSearchBtn"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/clean_search_btn"
-        app:backgroundTint="@color/yp_light_gray"
-        app:cornerRadius="@dimen/button_corner_radius"
-        android:textAppearance="@style/button_text"
-        android:textSize="@dimen/margin_medium"
-        android:textColor="@color/yp_black"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-    />
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/ic_search_18"
+        app:startIconTint="@color/yp_text_gray"
+        app:endIconTint="@color/yp_black"
+        app:boxBackgroundColor="@color/yp_light_gray"
+        app:boxBackgroundMode="filled"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintEnabled="false">
+
+        <!-- Увеличил параметры, т.к. отхватил ошибку
+        This item's height is 36dp. Consider making the height of this touch target 48dp or larger.
+        -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_strings"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/search"
+            android:textColorHint="?attr/textColorHint"
+            android:textColor="?attr/textColorSecondary"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 </LinearLayout>

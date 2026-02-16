@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/yp_blue"
+    android:background="?android:attr/colorBackground"
     android:gravity="center"
     tools:context=".MainActivity">
 
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
-        android:background="@color/yp_blue"
+        android:background="?attr/colorPrimary"
         app:title="@string/title"
         app:titleTextAppearance="@style/title"
         app:titleTextColor="@color/yp_white" />

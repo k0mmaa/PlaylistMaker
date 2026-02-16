@@ -4,7 +4,7 @@
     android:id="@+id/parent_layout_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yp_white"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
     <!-- MaterialToolbar (заголовок + back) -->
@@ -16,9 +16,9 @@
         android:minHeight="?attr/actionBarSize"
         android:contentInsetStart="0dp"
         app:navigationIcon="@drawable/ic_arrow_back_24"
+        app:navigationIconTint="?android:attr/textColorPrimary"
         app:title="@string/settings"
-        app:titleTextAppearance="@style/title"
-        app:titleTextColor="@color/yp_black" />
+        app:titleTextAppearance="@style/title" />
 
     <!-- Dark mode setting -->
     <LinearLayout
@@ -51,8 +51,7 @@
             android:id="@+id/liner_icon_shared_app"
             style="@style/SettingsIconContainer">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/SettingsIcon"
                 android:src="@drawable/ic_share_24" />
         </LinearLayout>
     </LinearLayout>
@@ -72,8 +71,7 @@
             style="@style/SettingsIconContainer">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/SettingsIcon"
                 android:src="@drawable/ic_support_composite_24"
                 android:paddingTop="3.1dp"
                 android:paddingBottom="2dp"
@@ -94,8 +92,7 @@
             android:id="@+id/liner_icon_agreement"
             style="@style/SettingsIconContainer">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/SettingsIcon"
                 android:src="@drawable/ic_arrow_forward_24"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
