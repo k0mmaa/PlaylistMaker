@@ -15,6 +15,7 @@
         android:minHeight="?attr/actionBarSize"
         android:contentInsetStart="0dp"
         app:navigationIcon="@drawable/ic_arrow_back_24"
+        app:navigationIconTint="?attr/textColorPrimary"
         app:title="@string/search"
         app:titleTextAppearance="@style/title" />
 

@@ -8,6 +8,14 @@
         <item name="textColorPrimary">@color/yp_white</item>   <!-- текст на тулбаре -->
         <item name="textColorSecondary">@color/yp_black</item> <!-- текст на кнопках -->
         <item name="settingsIconTint">@color/yp_white</item>
+        <!-- ДОБАВЬТЕ ЭТИ АТРИБУТЫ ДЛЯ ТЕМНОЙ ТЕМЫ -->
+        <item name="textColorHint">@color/yp_black</item>      <!-- цвет подсказки -->
+        <item name="colorControlNormal">@color/yp_white</item> <!-- цвет иконок -->
+        <item name="colorControlActivated">@color/yp_blue</item> <!-- цвет при активации -->
+        <item name="colorControlHighlight">@color/yp_blue</item> <!-- цвет при нажатии -->
+
+
+
     </style>
 
     <!-- Тема для экрана настроек (белый/черный фон) -->
