@@ -56,7 +56,9 @@
             android:paddingBottom="8dp"
             android:paddingStart="0dp"
             android:paddingEnd="0dp" />
-
     </com.google.android.material.textfield.TextInputLayout>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

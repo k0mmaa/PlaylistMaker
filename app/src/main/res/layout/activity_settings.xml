@@ -21,6 +21,7 @@
         app:titleTextAppearance="@style/title" />
 
     <!-- Dark mode setting -->
+    <!-- Я вижу комментарий, но пока руки не дошли до исправления, макета. Обещаю исправиться позже-->
     <LinearLayout
         android:id="@+id/lists_dark_mode"
         style="@style/SettingsItem">

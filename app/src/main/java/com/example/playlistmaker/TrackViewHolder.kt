@@ -1,0 +1,33 @@
+package com.example.playlistmaker
+
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+
+class TrackViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
+    LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false))
+    {
+    var trackNameTv: TextView = itemView.findViewById(R.id.trackName)
+    var artistNameTv: TextView = itemView.findViewById(R.id.artistName)
+    var trackTimeTv: TextView = itemView.findViewById(R.id.trackTime)
+    var artworkUrl100Iv: ImageView = itemView.findViewById(R.id.artworkUrl100)
+
+
+
+    fun bind(song: Track){
+        trackNameTv.text=song.trackName
+        artistNameTv.text=song.artistName
+        trackTimeTv.text=song.trackTime
+
+        Glide.with(itemView.context)
+            .load(song.artworkUrl100)
+            .placeholder(R.drawable.ic_media_24)
+            .transform(RoundedCorners(2))
+            .into(artworkUrl100Iv)
+    }
+}

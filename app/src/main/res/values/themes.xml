@@ -20,6 +20,7 @@
             <item name="textColorPrimary">@color/yp_black</item>         <!-- Для светлой темы -->
             <item name="textColorSecondary">@color/yp_black</item>       <!-- Для светлой темы -->
             <item name="settingsIconTint">@color/yp_text_gray</item>
+            <item name="textColorRecycleView">@color/yp_text_gray</item>
     </style>
 
 </resources>

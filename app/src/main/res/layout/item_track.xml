@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentRecycle"
+    android:layout_width="match_parent"
+    android:layout_height="61dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/artworkUrl100"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:paddingTop="8dp"
+        android:paddingStart="13dp"/>
+    <!-- углы срезать в коде через .transform(RoundedCorners(2)) радиус в пикселях-->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            style="@style/ys_regular"
+            android:id="@+id/trackName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/ys_regular_11"
+                android:id="@+id/artistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                style="@style/ys_regular_11"
+                android:id="@+id/trackTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/artistName"
+                android:drawablePadding="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:drawableStartCompat="@drawable/ic_dot" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/liner_icon_agreement"
+        style="@style/SettingsIconContainer">
+        <ImageView
+            style="@style/SettingsIcon"
+            android:src="@drawable/ic_arrow_forward_24"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+    </LinearLayout>
+</LinearLayout>

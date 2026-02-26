@@ -4,4 +4,5 @@
     <attr name="textColorSecondary" format="color" />
     <attr name="settingsIconTint" format="color" />
     <attr name="textColorHint" format="color" />
+    <attr name="textColorRecycleView" format="color"/>
 </resources>

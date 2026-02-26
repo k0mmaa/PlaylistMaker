@@ -39,4 +39,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(navigateToSettingsActivity)
         }
     }
+
+
 }
