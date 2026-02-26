@@ -17,5 +17,4 @@ class TrackAdapter (private val trackList: List<Track>) : RecyclerView.Adapter<T
     override fun getItemCount(): Int {
         return trackList.size
     }
-
 }
