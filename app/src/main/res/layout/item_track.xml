@@ -58,6 +58,7 @@
         </RelativeLayout>
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/liner_icon_agreement"
         style="@style/SettingsIconContainer">
