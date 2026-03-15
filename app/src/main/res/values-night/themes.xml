@@ -14,6 +14,9 @@
         <item name="colorControlActivated">@color/yp_blue</item> <!-- цвет при активации -->
         <item name="colorControlHighlight">@color/yp_blue</item> <!-- цвет при нажатии -->
 
+        <item name="refreshButtonBackground">@color/yp_white</item>
+        <item name="refreshButtonTextColor">@color/yp_black</item>
+
 
 
     </style>
@@ -21,6 +24,10 @@
     <!-- Тема для экрана настроек (белый/черный фон) -->
     <style name="Theme.PlaylistMaker.Settings" parent="Base.Theme.PlaylistMaker">
         <item name="textColorRecycleView">@color/yp_white</item>
+
+        <!-- кнопка обновить -->
+        <item name="refreshButtonBackground">@color/yp_white</item>
+        <item name="refreshButtonTextColor">@color/yp_black</item>
 
 
 

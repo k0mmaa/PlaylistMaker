@@ -1,8 +1,13 @@
 package com.example.playlistmaker
 
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,53 +19,37 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class SearchActivity : AppCompatActivity() {
+
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(apiBaseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val trackApiService = retrofit.create(TrackApiService::class.java)
+
+    private lateinit var trackAdapter: TrackAdapter
     private lateinit var inputEditText: TextInputEditText
     private lateinit var textInputLayout: TextInputLayout
     private lateinit var trackListRecyclerView: RecyclerView
+    private lateinit var emptyPlaceholder: LinearLayout
+    private lateinit var errorPlaceholder: LinearLayout
+    private lateinit var refreshButton: Button
+    private lateinit var errorMessage: TextView
 
     companion object {
+        private val apiBaseUrl = "https://itunes.apple.com"
         private const val KEY_NAME = "user_data"
-            val trackList = mutableListOf<Track>()
-
-            init {
-                trackList.add(Track(
-                    trackName = "Smells Like Teen Spirit",
-                    artistName = "Nirvana",
-                    trackTime = "5:01",
-                    artworkUrl100 = "https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg"
-                ))
-
-                trackList.add(Track(
-                    trackName = "Billie Jean",
-                    artistName = "Michael Jackson",
-                    trackTime = "4:35",
-                    artworkUrl100 = "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg",
-                ))
-
-                trackList.add(Track(
-                    "Stayin' Alive",
-                    "Bee Gees",
-                    "4:10",
-                    "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg",
-                ))
-
-                trackList.add(Track(
-                    "Whole Lotta Love",
-                    "Led Zeppelin",
-                    "5:33",
-                    "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg",
-                ))
-
-                trackList.add(Track(
-                    "Sweet Child O'Mine",
-                    "Guns N' Roses",
-                    "5:03",
-                    "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg",
-                ))
-            }
-        }
+        val trackList = mutableListOf<Track>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -78,14 +67,16 @@ class SearchActivity : AppCompatActivity() {
         textInputLayout = findViewById(R.id.search_input_layout)
         inputEditText = findViewById(R.id.input_strings)
         trackListRecyclerView = findViewById(R.id.trackRecyclerView)
+        emptyPlaceholder = findViewById(R.id.emptyPlaceholder)
+        errorPlaceholder = findViewById(R.id.errorPlaceholder)
+        refreshButton = findViewById(R.id.refreshButton)
+        errorMessage = findViewById(R.id.errorMessage)
 
 
+
+        trackAdapter = TrackAdapter(trackList)
         trackListRecyclerView.layoutManager = LinearLayoutManager(this)
-        trackListRecyclerView.adapter = TrackAdapter(trackList)
-
-
-
-
+        trackListRecyclerView.adapter = trackAdapter
 
 
         // Восстановление текста - если есть
@@ -116,8 +107,27 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-            //inputEditText.addTextChangedListener(simpleTextWatcher) - т.к. использовал знак крест из Material Design
+        refreshButton.setOnClickListener {
+            val query = inputEditText.text.toString()
+            if (query.isNotBlank())
+                searchTracks(query)
+        }
 
+        //inputEditText.addTextChangedListener(simpleTextWatcher) - т.к. использовал знак крест из Material Design
+
+        //обработчик нажатии кнопки Done
+        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // поисковый ЗАПРОС 0J/RgNC40LLQtdGCIdCl0L7RgNC+0YjQtdCz0L4g0LTQvdGPCg==
+                val query = inputEditText.text.toString()
+                if (query.isNotBlank()) {
+                    searchTracks(query)
+                }
+                true
+            } else {
+                false
+            }
+        }
 
     }
 
@@ -132,4 +142,62 @@ class SearchActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         inputEditText.setText(savedInstanceState.getString(KEY_NAME))
     }
+
+
+    private fun searchTracks(query: String) {
+
+        trackApiService.searchTrack(query).enqueue(object : Callback<TrackResponse> {
+
+            override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+                //успешный ответ (код 200)
+                when (response.code()) {
+                    200 -> handleSearchResponse(response.body())
+                    else -> showError("Ошибка сервера: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                // ошибка сети/сервера
+                showError(getString(R.string.network_error))
+            }
+        })
+    }
+
+    private fun handleSearchResponse(response: TrackResponse?) {
+        if (response == null) return
+
+        if (response.resultCount > 0) {
+            // Есть треки - обновляем адаптер и показываем список
+            trackAdapter.updateTracks(response.results)
+            showTracks()
+        } else {
+            // Нет треков - показываем заглушку
+            showEmpty()
+        }
+    }
+
+    private fun showEmpty() {
+        trackListRecyclerView.visibility = View.GONE
+        errorPlaceholder.visibility = View.GONE
+        emptyPlaceholder.visibility = View.VISIBLE
+    }
+
+    fun showTracks(){
+        //отрисовываем ресайкл
+        trackListRecyclerView.visibility = View.VISIBLE
+        emptyPlaceholder.visibility = View.GONE
+        errorPlaceholder.visibility = View.GONE
+
+    }
+    private fun showError(message: String) {
+        // Скрываем список
+        trackListRecyclerView.visibility = View.GONE
+        errorPlaceholder.visibility = View.VISIBLE
+        emptyPlaceholder.visibility = View.GONE
+        errorMessage.text = message
+    }
+
 }
+
+
+

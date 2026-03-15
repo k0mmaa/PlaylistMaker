@@ -41,9 +41,6 @@
         app:boxStrokeWidthFocused="0dp"
         app:hintEnabled="false">
 
-        <!-- Увеличил параметры, т.к. отхватил ошибку
-        This item's height is 36dp. Consider making the height of this touch target 48dp or larger.
-        -->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_strings"
             android:layout_width="match_parent"
@@ -55,10 +52,77 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingStart="0dp"
-            android:paddingEnd="0dp" />
+            android:paddingEnd="0dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trackRecyclerView"
+
+    <!-- Контейнер для списка и заглушек -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <!-- RecyclerView (список треков) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trackRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"/>
+
+        <!-- Заглушка "Ничего не найдено" -->
+        <LinearLayout
+            android:id="@+id/emptyPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_noting_to_find_black"
+                android:contentDescription="@string/nothing_found"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nothing_found"
+                android:textSize="18sp"
+                android:padding="16dp"/>
+        </LinearLayout>
+
+        <!-- Заглушка "Ошибка" с кнопкой Обновить -->
+        <LinearLayout
+            android:id="@+id/errorPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_network_error_light"
+                android:contentDescription="@string/network_error"/>
+
+            <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/network_error"
+                android:textSize="18sp"
+                android:padding="16dp"
+                android:gravity="center"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/refreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/refresh"
+                app:cornerRadius="@dimen/button_corner_radius"
+                style="@style/Update_Button"/>
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

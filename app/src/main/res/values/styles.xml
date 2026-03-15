@@ -26,6 +26,15 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
 
+    <style name="ys_medium_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/refreshButtonTextColor</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+
+
+
     <!-- Стиль для кнопок на главном экране -->
     <style name="MainMenuButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
@@ -76,6 +85,11 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:tint">?attr/settingsIconTint</item>
+    </style>
+
+    <style name="Update_Button">
+        <item name="android:textAppearance">@style/ys_medium_14</item>
+        <item name="android:backgroundTint">?attr/refreshButtonBackground</item>
     </style>
 
 </resources>

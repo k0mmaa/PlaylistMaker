@@ -26,9 +26,10 @@
     <!-- User agreement -->
     <string name="agreement_url">https://yandex.ru/legal/practicum_offer/ru/</string>
     <string name="read_agreemen">Открыть пользовательской соглашение</string>
+    <string name="network_error">Проблемы со связью \n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="refresh">Обновить</string>
 
-    <!-- Clean Search -->
-    <string name="clean_search_btn">Очистить поисковый запрос</string>
 
 
 
