@@ -11,4 +11,8 @@
     <attr name="refreshButtonBackground" format="color" />
     <attr name="refreshButtonTextColor" format="color" />
 
+    <attr name="placeholderPrimaryColor" format="color" />
+    <attr name="placeholderSecondaryColor" format="color" />
+    <attr name="placeholderAccentColor" format="color" />
+
 </resources>

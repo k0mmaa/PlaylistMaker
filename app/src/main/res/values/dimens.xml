@@ -30,4 +30,7 @@
     <dimen name="icon_padding">8dp</dimen>
 
     <dimen name="button_height_weighted">0dp</dimen>
+
+    <dimen name="placeholder_margin_top">102dp</dimen>
+
 </resources>

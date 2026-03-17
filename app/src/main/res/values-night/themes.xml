@@ -29,7 +29,10 @@
         <item name="refreshButtonBackground">@color/yp_white</item>
         <item name="refreshButtonTextColor">@color/yp_black</item>
 
-
+        <!-- заглушка вектор -->
+        <item name="placeholderPrimaryColor">@color/yp_white</item>
+        <item name="placeholderSecondaryColor">@color/yp_white</item>
+        <item name="placeholderAccentColor">@color/yp_yellow</item>
 
     </style>
 </resources>

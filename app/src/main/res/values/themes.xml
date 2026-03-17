@@ -28,6 +28,11 @@
         <!-- кнопка обновить -->
             <item name="refreshButtonBackground">@color/yp_black</item>
             <item name="refreshButtonTextColor">@color/yp_white</item>
+
+        <!-- цвета для заглушак -->
+        <item name="placeholderPrimaryColor">@color/yp_black</item>  <!-- для #1A1B22 -->
+        <item name="placeholderSecondaryColor">@color/yp_black</item>
+        <item name="placeholderAccentColor">@color/yp_yellow</item>  <!-- для #FCD452 -->
     </style>
 
 </resources>

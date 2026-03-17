@@ -118,7 +118,7 @@ class SearchActivity : AppCompatActivity() {
         //обработчик нажатии кнопки Done
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                // поисковый ЗАПРОС 0J/RgNC40LLQtdGCIdCl0L7RgNC+0YjQtdCz0L4g0LTQvdGPCg==
+                // поисковый ЗАПРОС 0JTQsCDQv9GA0LjQsdGD0LTQtdGCINGBINGC0L7QsdC+0Lkg0YHQuNC70LAhCg==
                 val query = inputEditText.text.toString()
                 if (query.isNotBlank()) {
                     searchTracks(query)
@@ -149,10 +149,10 @@ class SearchActivity : AppCompatActivity() {
         trackApiService.searchTrack(query).enqueue(object : Callback<TrackResponse> {
 
             override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
-                //успешный ответ (код 200)
-                when (response.code()) {
-                    200 -> handleSearchResponse(response.body())
-                    else -> showError("Ошибка сервера: ${response.code()}")
+                if (response.isSuccessful) {
+                    handleSearchResponse(response.body())
+                } else {
+                    showError("Ошибка сервера: ${response.code()}")
                 }
             }
 
