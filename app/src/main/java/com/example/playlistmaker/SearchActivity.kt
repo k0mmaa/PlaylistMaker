@@ -1,11 +1,13 @@
 package com.example.playlistmaker
 
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -104,6 +106,9 @@ class SearchActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 // Не требуется
+                if (s.isNullOrEmpty()){
+                    clearTracklist()
+                }
             }
         })
 
@@ -195,6 +200,20 @@ class SearchActivity : AppCompatActivity() {
         errorPlaceholder.visibility = View.VISIBLE
         emptyPlaceholder.visibility = View.GONE
         errorMessage.text = message
+    }
+
+    private fun clearTracklist(){
+        trackAdapter.updateTracks(emptyList())
+        hideKeyboard()
+        trackListRecyclerView.visibility= View.GONE
+        emptyPlaceholder.visibility = View.GONE
+        errorPlaceholder.visibility = View.GONE
+
+    }
+
+    private fun hideKeyboard(){
+        val imm =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(inputEditText.windowToken, 0)
     }
 
 }
