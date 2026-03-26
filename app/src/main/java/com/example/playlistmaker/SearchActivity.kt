@@ -45,13 +45,19 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var emptyPlaceholder: LinearLayout
     private lateinit var errorPlaceholder: LinearLayout
     private lateinit var refreshButton: Button
+    private lateinit var btnCleanHistory: Button
     private lateinit var errorMessage: TextView
+    private lateinit var searchHistory: SearchHistory
+    private lateinit var historyPlaceHolder: TextView
+
 
     companion object {
         private val apiBaseUrl = "https://itunes.apple.com"
         private const val KEY_NAME = "user_data"
         val trackList = mutableListOf<Track>()
+        const val TRACK_HISTORY_PREF = "track_history_preferences"
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -66,6 +72,10 @@ class SearchActivity : AppCompatActivity() {
 
         // Инициализация объектов
         val btnToMainActivity = findViewById<MaterialToolbar>(R.id.tool_bar)
+        val sharedPrefs = getSharedPreferences(TRACK_HISTORY_PREF, MODE_PRIVATE)
+        searchHistory = SearchHistory(sharedPrefs)
+        btnCleanHistory = findViewById<Button>(R.id.clearHistoryButton)
+        historyPlaceHolder = findViewById(R.id.tv_search_history)
         textInputLayout = findViewById(R.id.search_input_layout)
         inputEditText = findViewById(R.id.input_strings)
         trackListRecyclerView = findViewById(R.id.trackRecyclerView)
@@ -75,8 +85,19 @@ class SearchActivity : AppCompatActivity() {
         errorMessage = findViewById(R.id.errorMessage)
 
 
+        //скрываем кнопку очистки истории поиска
+        historyPlaceHolder.visibility = View.GONE
+        btnCleanHistory.visibility = View.GONE
 
-        trackAdapter = TrackAdapter(trackList)
+
+
+
+        trackAdapter = TrackAdapter(trackList) { track ->
+            searchHistory.addTrack(track)
+            if (inputEditText.text.isNullOrEmpty()) {
+                trackAdapter.updateTracks(searchHistory.getHistory())
+            }
+        }
         trackListRecyclerView.layoutManager = LinearLayoutManager(this)
         trackListRecyclerView.adapter = trackAdapter
 
@@ -87,16 +108,11 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // Обработка нажатия на стрелку назад
-        btnToMainActivity.setOnClickListener {
-            finish()
-        }
+        btnToMainActivity.setOnClickListener { finish() }
 
-        //
+        //TextWatcher
         inputEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Не требуется
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // удалил код, т.к. добавил крестик из Material Design, знаю, что не по теории, но так оказалось проще
                 //раньше было так. Если необходимо, могу вернуть код - он был в пулреквесте №2
@@ -105,36 +121,56 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // Не требуется
-                if (s.isNullOrEmpty()){
-                    clearTracklist()
+                if (s.isNullOrEmpty()) {
+                    val history = searchHistory.getHistory()
+                    if (history.isNotEmpty()) {
+                        showHistory(history)
+                    } else {
+                        hideHistory()
+                        clearTracklist()
+                    }
+                }else{
+                    hideHistory()
+                    trackListRecyclerView.visibility = View.GONE
                 }
             }
         })
+
 
         refreshButton.setOnClickListener {
             val query = inputEditText.text.toString()
             if (query.isNotBlank())
                 searchTracks(query)
         }
-
-        //inputEditText.addTextChangedListener(simpleTextWatcher) - т.к. использовал знак крест из Material Design
-
         //обработчик нажатии кнопки Done
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                // поисковый ЗАПРОС 0JTQsCDQv9GA0LjQsdGD0LTQtdGCINGBINGC0L7QsdC+0Lkg0YHQuNC70LAhCg==
+                // 0JTQsCDQv9GA0LjQsdGD0LTQtdGCINGBINGC0L7QsdC+0Lkg0YHQuNC70LAhINCS0YvRh9C40YLQsNGC0Ywg0Y3RgtC+0YIg0LHQtdC30YPQvNC90YvQuSDQutC+0LQhCg==
                 val query = inputEditText.text.toString()
-                if (query.isNotBlank()) {
-                    searchTracks(query)
-                }
+                if (query.isNotBlank()) searchTracks(query)
                 true
+            } else false
+        }
+
+        //реализация фокуса
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
+            val history = searchHistory.getHistory()
+            if (hasFocus && inputEditText.text.isNullOrEmpty() && history.isNotEmpty()) {
+                showHistory(history)
             } else {
-                false
+                hideHistory()
             }
         }
 
+        btnCleanHistory.setOnClickListener {
+            searchHistory.clearHistory()
+            trackAdapter.updateTracks(emptyList())
+            historyPlaceHolder.visibility = View.GONE
+            btnCleanHistory.visibility = View.GONE
+            clearTracklist()
+        }
     }
+
 
     // Сохраняем  данные пользователя
     override fun onSaveInstanceState(outState: Bundle) {
@@ -150,10 +186,14 @@ class SearchActivity : AppCompatActivity() {
 
 
     private fun searchTracks(query: String) {
+        hideHistory()
 
         trackApiService.searchTrack(query).enqueue(object : Callback<TrackResponse> {
 
-            override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+            override fun onResponse(
+                call: Call<TrackResponse>,
+                response: Response<TrackResponse>
+            ) {
                 if (response.isSuccessful) {
                     handleSearchResponse(response.body())
                 } else {
@@ -187,13 +227,14 @@ class SearchActivity : AppCompatActivity() {
         emptyPlaceholder.visibility = View.VISIBLE
     }
 
-    fun showTracks(){
+    fun showTracks() {
         //отрисовываем ресайкл
         trackListRecyclerView.visibility = View.VISIBLE
         emptyPlaceholder.visibility = View.GONE
         errorPlaceholder.visibility = View.GONE
 
     }
+
     private fun showError(message: String) {
         // Скрываем список
         trackListRecyclerView.visibility = View.GONE
@@ -202,21 +243,36 @@ class SearchActivity : AppCompatActivity() {
         errorMessage.text = message
     }
 
-    private fun clearTracklist(){
+    private fun clearTracklist() {
         trackAdapter.updateTracks(emptyList())
         hideKeyboard()
-        trackListRecyclerView.visibility= View.GONE
+        trackListRecyclerView.visibility = View.GONE
         emptyPlaceholder.visibility = View.GONE
         errorPlaceholder.visibility = View.GONE
 
     }
 
-    private fun hideKeyboard(){
-        val imm =getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(inputEditText.windowToken, 0)
     }
 
+    private fun showHistory(history: List<Track>) {
+        historyPlaceHolder.visibility = View.VISIBLE
+        btnCleanHistory.visibility = View.VISIBLE
+
+        trackAdapter.updateTracks(history)
+        showTracks()
+    }
+
+    private fun hideHistory() {
+        historyPlaceHolder.visibility = View.GONE
+        btnCleanHistory.visibility = View.GONE
+    }
 }
+
+
+
 
 
 
