@@ -70,9 +70,8 @@
     <!-- Контейнер для списка и заглушек -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
 
 
         <!-- RecyclerView (список треков) -->
@@ -146,5 +145,9 @@
         style="@style/Update_Button"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/settings_item_spacing"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

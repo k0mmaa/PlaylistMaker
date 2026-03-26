@@ -85,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
         errorMessage = findViewById(R.id.errorMessage)
 
 
-        //скрываем кнопку очистки истории поиска
+        //дефолтно скрываем кнопку очистки истории поиска
         historyPlaceHolder.visibility = View.GONE
         btnCleanHistory.visibility = View.GONE
 
@@ -168,6 +168,12 @@ class SearchActivity : AppCompatActivity() {
             historyPlaceHolder.visibility = View.GONE
             btnCleanHistory.visibility = View.GONE
             clearTracklist()
+        }
+
+        //решаею проблему при повторном входе в активность
+        val currentHistory = searchHistory.getHistory()
+        if (inputEditText.text.isNullOrEmpty() && currentHistory.isNotEmpty()) {
+            showHistory(currentHistory)
         }
     }
 
