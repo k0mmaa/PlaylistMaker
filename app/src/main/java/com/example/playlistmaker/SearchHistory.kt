@@ -5,8 +5,13 @@ import com.google.gson.Gson
 import androidx.core.content.edit
 
 class SearchHistory(val sharedPreferences: SharedPreferences) {
-    private val historyKey = "track_history"
-    private val gson = Gson()
+
+    companion object {
+        private val historyKey = "track_history"
+        const val MAX_SIZE_HISTORY = 10
+        private val gson = Gson()
+    }
+
 
     fun getHistory(): List<Track> {
         val json = sharedPreferences.getString(historyKey, null) ?: return emptyList()
@@ -18,7 +23,7 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
         val history = getHistory().toMutableList()
         history.removeIf { it.trackId == track.trackId }
         history.add(0, track) // Добавляем новый трек в начало списка - индекс0
-        if (history.size > 10) { //если больше 10 удаляемм последний
+        if (history.size > MAX_SIZE_HISTORY) { //если больше 10 удаляемм последний
             history.removeAt(history.lastIndex)
         }
         sharedPreferences.edit {
