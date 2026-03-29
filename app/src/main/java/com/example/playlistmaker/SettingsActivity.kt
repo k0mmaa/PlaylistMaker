@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -31,6 +32,14 @@ class SettingsActivity: AppCompatActivity() {
         val btnSharedApp = findViewById<LinearLayout>(R.id.liner_icon_shared_app)
         val btnEmailSupport = findViewById<LinearLayout>(R.id.liner_icon_support)
         val btnUserAgreement = findViewById<LinearLayout>(R.id.liner_icon_agreement)
+        val themeSwitcher = findViewById<SwitchCompat>(R.id.dark_mode_switch)
+
+        themeSwitcher.isChecked = (applicationContext as App).darkTheme
+
+        themeSwitcher.setOnCheckedChangeListener { _, checked ->
+            (applicationContext as App).switchTheme(checked)
+
+        }
 
         btnBackMainActivity.setOnClickListener {
             finish()

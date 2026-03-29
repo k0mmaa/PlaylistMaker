@@ -31,6 +31,12 @@
     <string name="refresh">Обновить</string>
 
 
+    <!--SearchActivity -->
+    <string name="you_searched">Вы искали</string>
+    <string name="clean_history">Очистить историю</string>
+
+
+
 
 
 </resources>

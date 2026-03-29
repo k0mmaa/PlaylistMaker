@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 data class Track (
 
+    val trackId: Long, // Уникальный идентификатор трека - добавил для истории
     val trackName: String, // Название композиции
     val artistName: String, // Имя исполнителя
     val trackTimeMillis: Long, // Продолжительность трека

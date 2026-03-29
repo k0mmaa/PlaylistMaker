@@ -58,16 +58,35 @@
             android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!--  Общий для поиска кнопки и списка -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="@string/you_searched"
+        style="@style/ys_medium_19"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/settings_item_spacing"
+        />
+
     <!-- Контейнер для списка и заглушек -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp">
+
 
         <!-- RecyclerView (список треков) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trackRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="visible"/>
 
         <!-- Заглушка "Ничего не найдено" -->
@@ -97,7 +116,7 @@
         <LinearLayout
             android:id="@+id/errorPlaceholder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal|top"
             android:visibility="gone"
@@ -125,4 +144,15 @@
                 style="@style/Update_Button"/>
         </LinearLayout>
     </FrameLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/clearHistoryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clean_history"
+        app:cornerRadius="@dimen/button_corner_radius"
+        style="@style/Update_Button"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/settings_item_spacing"/>
+</LinearLayout>
+
 </LinearLayout>
