@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -94,6 +95,10 @@ class SearchActivity : AppCompatActivity() {
 
         trackAdapter = TrackAdapter(trackList) { track ->
             searchHistory.addTrack(track)
+            val intent = Intent(this, PlayerActivity::class.java).apply{
+                putExtra("track", track)
+            }
+            startActivity(intent)
             if (inputEditText.text.isNullOrEmpty()) {
                 trackAdapter.updateTracks(searchHistory.getHistory())
             }
