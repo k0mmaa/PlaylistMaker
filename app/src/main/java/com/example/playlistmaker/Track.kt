@@ -1,8 +1,9 @@
 package com.example.playlistmaker
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class Track (
 
     val trackId: Long, // Уникальный идентификатор трека - добавил для истории
@@ -14,4 +15,4 @@ data class Track (
     val releaseDate: String, //Год релиза трека (releaseDate) (если его нет, то эту информацию на экране не показываем),
     val primaryGenreName: String, // Style
     val country: String, //Страна исполнителя
-) : Serializable
+) : Parcelable

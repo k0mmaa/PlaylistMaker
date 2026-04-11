@@ -6,6 +6,7 @@
     <attr name="settingsIconTint" format="color" />
     <attr name="textColorHint" format="color" />
     <attr name="textColorRecycleView" format="color"/>
+    <attr name="playerButtonBackground" format="color"/>
 
 
     <attr name="refreshButtonBackground" format="color" />

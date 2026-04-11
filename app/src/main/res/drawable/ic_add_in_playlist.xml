@@ -6,8 +6,7 @@
     android:viewportHeight="51">
 
     <path
-        android:fillColor="?attr/settingsIconTint"
-        android:fillAlpha="0.25"
+        android:fillColor="?attr/playerButtonBackground"
         android:pathData="M 25.5 0 L 25.5 0 Q 51 0 51 25.5 L 51 25.5 Q 51 51 25.5 51 L 25.5 51 Q 0 51 0 25.5 L 0 25.5 Q 0 0 25.5 0 Z" />
     <path
         android:fillColor="#ffffff"

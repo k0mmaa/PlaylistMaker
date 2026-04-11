@@ -1,5 +1,8 @@
 package com.example.playlistmaker
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,10 +13,26 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Locale
 class PlayerActivity : AppCompatActivity()  {
+    companion object {
+        const val INPUT_TRACK = "track"
 
+    }
+
+    //private val handler = Handler(Looper.getMainLooper())
+    /*
+    private val updateTimeRunnable = object : Runnable {
+    override fun run() {
+        val currentPosition = mediaPlayer.currentPosition
+        playbackTimeTextView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(currentPosition)
+        handler.postDelayed(this, 300L)
+    }
+}
+     */
     private lateinit var backgroundImageView: ImageView
     private lateinit var songNameTextView: TextView
     private lateinit var artistNameTextView: TextView
@@ -55,8 +74,14 @@ class PlayerActivity : AppCompatActivity()  {
         pauseImageView = findViewById(R.id.pause)
         favoriteImageView = findViewById(R.id.favorite)
 
-        val track = intent.getSerializableExtra("track") as? Track
+        val track = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(INPUT_TRACK, Track::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(INPUT_TRACK)
+        }
         if (track != null) {
+            val formattedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
             backgroundImageView = findViewById(R.id.backgroundImageView)
 
             val highResArtworkUrl = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
@@ -64,7 +89,7 @@ class PlayerActivity : AppCompatActivity()  {
             Glide.with(this)
                 .load(highResArtworkUrl)
                 .placeholder(R.drawable.no_replay)
-                .centerCrop()
+                .transform(CenterCrop(),RoundedCorners(dpToPx(8f,this.resources)))
                 .into(backgroundImageView)
 
             songNameTextView = findViewById(R.id.songName)
@@ -74,13 +99,13 @@ class PlayerActivity : AppCompatActivity()  {
             artistNameTextView.text = track.artistName
 
             playbackTimeTextView = findViewById(R.id.playback_time)
-            playbackTimeTextView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+            playbackTimeTextView.text = "0:00"
 
 
             trackTimeMillisLabelTextView = findViewById(R.id.trackTimeMillisLabel)
 
             trackTimeMillisValueTextView = findViewById(R.id.trackTimeMillisValue)
-            trackTimeMillisValueTextView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+            trackTimeMillisValueTextView.text = formattedTime
 
             collectionNameTextView = findViewById(R.id.collectionName)
 
@@ -110,5 +135,11 @@ class PlayerActivity : AppCompatActivity()  {
         toolbar.setNavigationOnClickListener {
             finish()
         }
+    }
+    private fun dpToPx(dp: Float, resource: Resources) : Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            resource.displayMetrics).toInt()
     }
 }
