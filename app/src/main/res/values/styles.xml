@@ -19,6 +19,13 @@
         <item name="android:textColor">?attr/textColorPrimary</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
+
+    <style name="ys_medium_22">
+        <item name="android:textSize">19sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
     <style name="ys_medium_19">
         <item name="android:textSize">19sp</item>
         <item name="android:textColor">?attr/textColorPrimary</item>
@@ -106,6 +113,29 @@
     <style name="CleanHistoryButton">
         <item name="android:textAppearance">@style/ys_medium_14</item>
         <item name="android:backgroundTint">?attr/refreshButtonBackground</item>
+    </style>
+
+
+    <!-- стиль для активности Media -->
+    <style name="ys_medium_14_media">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ys_regular_13_media">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ys_regular_13_media_label">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
 </resources>

@@ -16,6 +16,7 @@
 
         <item name="refreshButtonBackground">@color/yp_white</item>
         <item name="refreshButtonTextColor">@color/yp_black</item>
+        <item name="playerButtonBackground">#40FFFFFF</item>
 
 
 
@@ -33,6 +34,7 @@
         <item name="placeholderPrimaryColor">@color/yp_white</item>
         <item name="placeholderSecondaryColor">@color/yp_white</item>
         <item name="placeholderAccentColor">@color/yp_yellow</item>
+        <item name="playerButtonBackground">#40FFFFFF</item>
 
     </style>
 </resources>

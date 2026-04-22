@@ -34,9 +34,12 @@
     <!--SearchActivity -->
     <string name="you_searched">Вы искали</string>
     <string name="clean_history">Очистить историю</string>
-
-
-
+    <string name="time_lable">Длительность</string>
+    <string name="_5_35">5:35</string>
+    <string name="collectionName">Альбом</string>
+    <string name="releaseDate">Год</string>
+    <string name="GenreName">Жанр</string>
+    <string name="countryName">Страна</string>
 
 
 </resources>
