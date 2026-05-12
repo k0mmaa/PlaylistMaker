@@ -20,5 +20,3 @@ class App: Application() {
         )
     }
 }
-
-///еуеые
