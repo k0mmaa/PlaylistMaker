@@ -58,7 +58,6 @@
             android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_search_history"
         android:layout_width="match_parent"
@@ -73,7 +72,8 @@
     <!-- Контейнер для списка и заглушек -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="8dp">
 
         <!-- Прогресс бар -->

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter (
-    var trackList: MutableList<Track>,
+    private var trackList: List<Track>,
     val onClick: (Track) -> Unit
 ) : RecyclerView.Adapter<TrackViewHolder>(){
 
@@ -13,21 +13,19 @@ class TrackAdapter (
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder,position: Int) {
-        holder.bind(trackList[position])
+        val track = trackList[position]
+        holder.bind(track)
 
         //слушатель нажатия на трек
         holder.itemView.setOnClickListener {
-            onClick(trackList[position])
+            onClick(track)
         }
     }
 
-    override fun getItemCount(): Int {
-        return trackList.size
-    }
+    override fun getItemCount(): Int = trackList.size
 
     fun updateTracks(newList: List<Track>) {
-        trackList.clear()
-        trackList.addAll(newList)
+        trackList = newList
         notifyDataSetChanged()
     }
 }
