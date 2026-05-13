@@ -27,10 +27,15 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object {
         const val INPUT_TRACK = "track"
+        const val delayMills  = 300L
         private const val STATE_DEFAULT = 0
         private const val STATE_PREPARED = 1
         private const val STATE_PLAYING = 2
         private const val STATE_PAUSED = 3
+    }
+
+    private val dateFormat by lazy {
+        SimpleDateFormat("mm:ss", Locale.getDefault())
     }
 
     private lateinit var backgroundImageView: ImageView
@@ -59,8 +64,8 @@ class PlayerActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val updateTimeRunnable = object : Runnable {
         override fun run() {
-            playbackTimeTextView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
-            handler.postDelayed(this, 300L)
+            playbackTimeTextView.text = dateFormat.format(mediaPlayer.currentPosition.toLong())
+            handler.postDelayed(this, delayMills)
         }
     }
 
@@ -98,7 +103,7 @@ class PlayerActivity : AppCompatActivity() {
                 Toast.makeText(this, "No preview available", Toast.LENGTH_SHORT).show()
             }
 
-            val formattedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+            val formattedTime = dateFormat.format(0L)
             backgroundImageView = findViewById(R.id.backgroundImageView)
 
             val highResArtworkUrl = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
@@ -115,10 +120,12 @@ class PlayerActivity : AppCompatActivity() {
             artistNameTextView = findViewById(R.id.artistName)
             artistNameTextView.text = track.artistName
 
-            playbackTimeTextView.text = "0:00"
+            playbackTimeTextView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(0L)
 
             trackTimeMillisValueTextView = findViewById(R.id.trackTimeMillisValue)
-            trackTimeMillisValueTextView.text = formattedTime
+            trackTimeMillisValueTextView.text = "%02d:%02d".format(track.trackTimeMillis / 60_000, (track.trackTimeMillis / 1_000) % 60)
+
+
 
             collectionNameValueTextView = findViewById(R.id.collectionNameValue)
             collectionNameValueTextView.text = track.collectionName
@@ -158,7 +165,7 @@ class PlayerActivity : AppCompatActivity() {
             handler.removeCallbacks(updateTimeRunnable)
             playImageView.setImageResource(R.drawable.ic_play_btn)
             playerState = STATE_PREPARED
-            playbackTimeTextView.text = "0:00"
+            playbackTimeTextView.text = dateFormat.format(0L)
         }
     }
 
