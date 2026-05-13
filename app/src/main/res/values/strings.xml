@@ -41,5 +41,8 @@
     <string name="GenreName">Жанр</string>
     <string name="countryName">Страна</string>
 
+    <!--Player Activity -->
+    <string name="zero_time">0:00</string>
+
 
 </resources>

@@ -15,4 +15,5 @@ data class Track (
     val releaseDate: String, //Год релиза трека (releaseDate) (если его нет, то эту информацию на экране не показываем),
     val primaryGenreName: String, // Style
     val country: String, //Страна исполнителя
+    val previewUrl: String?, //Ссылка на трек - 30 секунд
 ) : Parcelable

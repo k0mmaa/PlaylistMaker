@@ -58,12 +58,6 @@
             android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--  Общий для поиска кнопки и списка -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_search_history"
         android:layout_width="match_parent"
@@ -71,6 +65,7 @@
         android:text="@string/you_searched"
         style="@style/ys_medium_19"
         android:gravity="center"
+        android:visibility="visible"
         android:layout_marginTop="@dimen/settings_item_spacing"
         />
 
@@ -81,6 +76,15 @@
         android:layout_weight="1"
         android:layout_marginTop="8dp">
 
+        <!-- Прогресс бар -->
+        <ProgressBar android:id="@+id/progressBar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="144dp"
+            android:indeterminateTint="@color/yp_blue"
+            android:visibility="gone"/>
+
 
         <!-- RecyclerView (список треков) -->
         <androidx.recyclerview.widget.RecyclerView
@@ -88,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"/>
+
 
         <!-- Заглушка "Ничего не найдено" -->
         <LinearLayout
@@ -144,6 +149,7 @@
                 style="@style/Update_Button"/>
         </LinearLayout>
     </FrameLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/clearHistoryButton"
         android:layout_width="wrap_content"
@@ -152,7 +158,12 @@
         app:cornerRadius="@dimen/button_corner_radius"
         style="@style/Update_Button"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/settings_item_spacing"/>
-</LinearLayout>
+        android:layout_marginTop="@dimen/settings_item_spacing"
+        android:visibility="visible"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
