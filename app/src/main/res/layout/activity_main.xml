@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="?android:attr/colorBackground"
     android:gravity="center"
-    tools:context=".presentation.MainActivity">
+    tools:context=".main.MainActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/main_header"
