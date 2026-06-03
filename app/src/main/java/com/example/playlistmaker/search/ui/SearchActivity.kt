@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -18,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
@@ -79,21 +78,21 @@ class SearchActivity : AppCompatActivity() {
             inputEditText.setText(savedInstanceState.getString(KEY_NAME))
         }
 
-        findViewById<MaterialToolbar>(R.id.tool_bar).setOnClickListener { finish() }
+        findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener { finish() }
 
-        inputEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
+        inputEditText.addTextChangedListener(
+            onTextChanged = { s, _, _, _ ->
+                textInputLayout.isEndIconVisible = !s.isNullOrEmpty()
+            },
+            afterTextChanged = { s ->
                 if (s.isNullOrEmpty()) {
                     handler.removeCallbacks(searchRunnable)
+                    clearTracklist()
                     val history = searchHistoryInteractor.getHistory()
                     if (history.isNotEmpty()) {
                         showHistory(history)
                     } else {
                         hideHistory()
-                        clearTracklist()
                     }
                 } else {
                     hideHistory()
@@ -101,7 +100,19 @@ class SearchActivity : AppCompatActivity() {
                     searchDebounce()
                 }
             }
-        })
+        )
+
+        textInputLayout.setEndIconOnClickListener {
+            inputEditText.setText("")
+            hideKeyboard()
+            val history = searchHistoryInteractor.getHistory()
+            if (history.isNotEmpty()) {
+                showHistory(history)
+            } else {
+                hideHistory()
+                clearTracklist()
+            }
+        }
 
         refreshButton.setOnClickListener {
             val query = inputEditText.text.toString()
@@ -157,6 +168,7 @@ class SearchActivity : AppCompatActivity() {
 
         historyPlaceHolder.visibility = View.GONE
         btnCleanHistory.visibility = View.GONE
+        textInputLayout.isEndIconVisible = !inputEditText.text.isNullOrEmpty()
     }
 
     private fun setupAdapter() {
@@ -183,25 +195,30 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchTracks(query: String) {
         handler.removeCallbacks(searchRunnable)
-        showLoading()
-        hideHistory()
+        if (query.isNotEmpty()) {
+            showLoading()
+            hideHistory()
 
-        tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
-            override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                handler.post {
-                    progressBar.visibility = View.GONE
-                    if (foundTracks != null) {
-                        trackAdapter.updateTracks(foundTracks)
-                        showTracks()
-                    }
-                    if (errorMessage != null) {
-                        showError(errorMessage)
-                    } else if (foundTracks.isNullOrEmpty()) {
-                        showEmpty()
+            tracksInteractor.searchTracks(query, object : TracksInteractor.TracksConsumer {
+                override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
+                    handler.post {
+                        // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Проверяем, актуален ли еще этот запрос
+                        if (inputEditText.text.toString() == query) {
+                            progressBar.visibility = View.GONE
+                            if (foundTracks != null) {
+                                trackAdapter.updateTracks(foundTracks)
+                                showTracks()
+                            }
+                            if (errorMessage != null) {
+                                showError(errorMessage)
+                            } else if (foundTracks.isNullOrEmpty()) {
+                                showEmpty()
+                            }
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 
     private fun showEmpty() {

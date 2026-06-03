@@ -11,15 +11,11 @@ import java.util.Locale
 
 class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) : ViewModel() {
 
-    companion object {
-        private const val UPDATE_DELAY = 300L
-    }
-
     private val stateLiveData = MutableLiveData<PlayerState>(PlayerState.Default)
     fun observeState(): LiveData<PlayerState> = stateLiveData
 
     private val handler = Handler(Looper.getMainLooper())
-    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    private val dateFormat by lazy(mode = LazyThreadSafetyMode.NONE) { SimpleDateFormat("mm:ss", Locale.getDefault()) }
 
     private val updateTimeRunnable = object : Runnable {
         override fun run() {
@@ -33,11 +29,11 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
         audioPlayerInteractor.preparePlayer(
             url = url,
             onPrepared = {
-                stateLiveData.postValue(PlayerState.Prepared("00:00"))
+                stateLiveData.postValue(PlayerState.Prepared(dateFormat.format(0L)))
             },
             onCompletion = {
                 handler.removeCallbacks(updateTimeRunnable)
-                stateLiveData.postValue(PlayerState.Prepared("00:00"))
+                stateLiveData.postValue(PlayerState.Prepared(dateFormat.format(0L)))
             }
         )
     }
@@ -66,5 +62,9 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
         super.onCleared()
         handler.removeCallbacks(updateTimeRunnable)
         audioPlayerInteractor.release()
+    }
+
+    companion object {
+        private const val UPDATE_DELAY = 300L
     }
 }

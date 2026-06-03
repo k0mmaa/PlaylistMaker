@@ -2,8 +2,6 @@ package com.example.playlistmaker.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -15,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +26,6 @@ import com.example.playlistmaker.search.ui.SearchViewModelFactory
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.gson.Gson
 
 class SearchActivity : AppCompatActivity() {
 
@@ -99,22 +97,18 @@ class SearchActivity : AppCompatActivity() {
             viewModel.clearHistory()
         }
 
-        val simpleTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        inputEditText.addTextChangedListener(
+            onTextChanged = { s, _, _, _ ->
+                textInputLayout.isEndIconVisible = !s.isNullOrEmpty()
                 if (s.isNullOrEmpty()) {
-                    textInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
                     if (inputEditText.hasFocus()) {
                         viewModel.showHistory()
                     }
                 } else {
-                    textInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
                     viewModel.searchDebounce(s.toString())
                 }
             }
-            override fun afterTextChanged(s: Editable?) {}
-        }
-        inputEditText.addTextChangedListener(simpleTextWatcher)
+        )
 
         textInputLayout.setEndIconOnClickListener {
             inputEditText.setText("")
@@ -143,7 +137,7 @@ class SearchActivity : AppCompatActivity() {
         trackAdapter = TrackAdapter(emptyList()) { track ->
             viewModel.addTrackToHistory(track)
             val intent = Intent(this, PlayerActivity::class.java).apply {
-                putExtra("track_json", Gson().toJson(track))
+                putExtra(PlayerActivity.EXTRA_TRACK, track)
             }
             startActivity(intent)
         }

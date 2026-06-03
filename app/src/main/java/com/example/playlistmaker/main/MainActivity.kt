@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.example.playlistmaker.R
 import com.example.playlistmaker.search.MediaActivity
-import com.example.playlistmaker.search.SearchActivity
+import com.example.playlistmaker.search.ui.SearchActivity
 import com.example.playlistmaker.settings.SettingsActivity
 import com.google.android.material.button.MaterialButton
 
@@ -43,6 +43,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(navigateToSettingsActivity)
         }
     }
-
-
 }

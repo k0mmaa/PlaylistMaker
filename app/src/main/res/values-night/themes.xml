@@ -18,6 +18,8 @@
         <item name="refreshButtonTextColor">@color/yp_black</item>
         <item name="playerButtonBackground">#40FFFFFF</item>
 
+        <item name="clearButtonTint">@color/yp_black</item>
+        <item name="searchIconTint">@color/yp_black</item>
 
 
     </style>
@@ -35,6 +37,8 @@
         <item name="placeholderSecondaryColor">@color/yp_white</item>
         <item name="placeholderAccentColor">@color/yp_yellow</item>
         <item name="playerButtonBackground">#40FFFFFF</item>
+
+        <item name="clearButtonTint">@color/yp_black</item>
 
     </style>
 </resources>

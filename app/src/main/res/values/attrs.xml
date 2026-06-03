@@ -16,4 +16,7 @@
     <attr name="placeholderSecondaryColor" format="color" />
     <attr name="placeholderAccentColor" format="color" />
 
+    <attr name="clearButtonTint" format="color" />
+    <attr name="searchIconTint" format="color" />
+
 </resources>

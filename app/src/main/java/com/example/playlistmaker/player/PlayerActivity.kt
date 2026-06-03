@@ -1,6 +1,7 @@
 package com.example.playlistmaker.player
 
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -22,15 +23,10 @@ import com.example.playlistmaker.player.ui.PlayerState
 import com.example.playlistmaker.player.ui.PlayerViewModel
 import com.example.playlistmaker.player.ui.PlayerViewModelFactory
 import com.example.playlistmaker.search.domain.models.Track
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
-
-    companion object {
-        const val INPUT_TRACK_JSON = "track_json"
-    }
 
     private lateinit var viewModel: PlayerViewModel
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
@@ -53,8 +49,12 @@ class PlayerActivity : AppCompatActivity() {
 
         initViews()
 
-        val trackJson = intent.getStringExtra(INPUT_TRACK_JSON)
-        val track = if (trackJson != null) Gson().fromJson(trackJson, Track::class.java) else null
+        val track = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(EXTRA_TRACK, Track::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_TRACK)
+        }
 
         viewModel = ViewModelProvider(this, PlayerViewModelFactory())[PlayerViewModel::class.java]
 
@@ -102,7 +102,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun bindTrack(track: Track) {
         songNameTextView.text = track.trackName
         artistNameTextView.text = track.artistName
-        playbackTimeTextView.text = "00:00"
+        playbackTimeTextView.text = dateFormat.format(0L)
         trackTimeMillisValueTextView.text = dateFormat.format(track.trackTimeMillis)
         collectionNameValueTextView.text = track.collectionName
         releaseDateValueTextView.text = track.releaseDate.take(4)
@@ -133,7 +133,7 @@ class PlayerActivity : AppCompatActivity() {
             }
             is PlayerState.Default -> {
                 playImageView.setImageResource(R.drawable.ic_play_btn)
-                playbackTimeTextView.text = "00:00"
+                playbackTimeTextView.text = dateFormat.format(0L)
             }
         }
     }
@@ -146,4 +146,9 @@ class PlayerActivity : AppCompatActivity() {
     private fun dpToPx(dp: Float, resource: Resources): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resource.displayMetrics).toInt()
     }
+
+    companion object {
+        const val EXTRA_TRACK = "extra_track"
+    }
+
 }

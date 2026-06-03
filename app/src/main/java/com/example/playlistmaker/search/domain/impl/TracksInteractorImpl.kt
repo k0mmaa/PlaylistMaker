@@ -10,11 +10,15 @@ class TracksInteractorImpl(private val repository: TracksRepository) : TracksInt
 
     override fun searchTracks(expression: String, consumer: TracksInteractor.TracksConsumer) {
         executor.execute {
-            repository.searchTracks(expression, object : TracksRepository.TracksConsumer {
-                override fun consume(foundTracks: List<com.example.playlistmaker.search.domain.models.Track>?, errorMessage: String?) {
-                    consumer.consume(foundTracks, errorMessage)
-                }
-            })
+            try {
+                repository.searchTracks(expression, object : TracksRepository.TracksConsumer {
+                    override fun consume(foundTracks: List<com.example.playlistmaker.search.domain.models.Track>?, errorMessage: String?) {
+                        consumer.consume(foundTracks, errorMessage)
+                    }
+                })
+            } catch (e: Exception) {
+                consumer.consume(null, e.message ?: "Unknown error")
+            }
         }
     }
 }

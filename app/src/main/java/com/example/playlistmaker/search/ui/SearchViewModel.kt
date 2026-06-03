@@ -26,9 +26,7 @@ class SearchViewModel(
 
     private val searchRunnable = Runnable {
         val newSearchText = lastSearchText ?: ""
-        if (newSearchText.isNotEmpty()) {
-            searchRequest(newSearchText)
-        }
+        searchRequest(newSearchText)
     }
 
     fun searchDebounce(changedText: String) {
@@ -38,7 +36,10 @@ class SearchViewModel(
 
         this.lastSearchText = changedText
         handler.removeCallbacks(searchRunnable)
-        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        
+        if (changedText.isNotEmpty()) {
+            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        }
     }
 
     private fun searchRequest(newSearchText: String) {
@@ -47,20 +48,23 @@ class SearchViewModel(
 
             tracksInteractor.searchTracks(newSearchText, object : TracksInteractor.TracksConsumer {
                 override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                    val tracks = mutableListOf<Track>()
-                    if (foundTracks != null) {
-                        tracks.addAll(foundTracks)
-                    }
+                    // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Проверяем, совпадает ли текущий текст с тем, что мы искали
+                    if (newSearchText == lastSearchText) {
+                        val tracks = mutableListOf<Track>()
+                        if (foundTracks != null) {
+                            tracks.addAll(foundTracks)
+                        }
 
-                    when {
-                        errorMessage != null -> {
-                            renderState(SearchState.Error(errorMessage))
-                        }
-                        tracks.isEmpty() -> {
-                            renderState(SearchState.Empty)
-                        }
-                        else -> {
-                            renderState(SearchState.Content(tracks))
+                        when {
+                            errorMessage != null -> {
+                                renderState(SearchState.Error(errorMessage))
+                            }
+                            tracks.isEmpty() -> {
+                                renderState(SearchState.Empty)
+                            }
+                            else -> {
+                                renderState(SearchState.Content(tracks))
+                            }
                         }
                     }
                 }

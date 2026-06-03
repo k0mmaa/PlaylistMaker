@@ -7,7 +7,6 @@
     android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
-    <!-- MaterialToolbar (заголовок + back) -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
@@ -19,7 +18,6 @@
         app:title="@string/search"
         app:titleTextAppearance="@style/title" />
 
-    <!-- TextInputLayout с поиском и кнопкой очистки -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_input_layout"
         android:layout_width="match_parent"
@@ -27,11 +25,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        app:endIconMode="clear_text"
+        app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_clear"
-        app:endIconTint="#AEAFB4"
+        app:endIconTint="?attr/clearButtonTint"
         app:startIconDrawable="@drawable/ic_search_18"
-        app:startIconTint="@color/yp_text_gray"
+        app:startIconTint="?attr/searchIconTint"
         app:boxBackgroundColor="@color/yp_light_gray"
         app:boxBackgroundMode="filled"
         app:boxCornerRadiusTopEnd="12dp"
@@ -47,8 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/search"
-            android:textColorHint="?attr/textColorHint"
-            android:textColor="?attr/textColorSecondary"
+            android:textColorHint="@color/yp_text_gray"
+            android:textColor="@color/yp_black"
             android:maxLines="1"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
@@ -69,13 +67,11 @@
         android:layout_marginTop="@dimen/settings_item_spacing"
         />
 
-    <!-- Контейнер для списка и заглушек -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp">
 
-        <!-- Прогресс бар -->
         <ProgressBar android:id="@+id/progressBar"
             android:layout_width="44dp"
             android:layout_height="44dp"
@@ -84,16 +80,12 @@
             android:indeterminateTint="@color/yp_blue"
             android:visibility="gone"/>
 
-
-        <!-- RecyclerView (список треков) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trackRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"/>
 
-
-        <!-- Заглушка "Ничего не найдено" -->
         <LinearLayout
             android:id="@+id/emptyPlaceholder"
             android:layout_width="match_parent"
@@ -116,7 +108,6 @@
                 style="@style/ErrorTextStyle"/>
         </LinearLayout>
 
-        <!-- Заглушка "Ошибка" с кнопкой Обновить -->
         <LinearLayout
             android:id="@+id/errorPlaceholder"
             android:layout_width="match_parent"

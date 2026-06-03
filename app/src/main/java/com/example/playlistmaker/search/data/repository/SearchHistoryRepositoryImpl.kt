@@ -44,14 +44,14 @@ class SearchHistoryRepositoryImpl(
     private fun mapDtoToDomain(dto: TrackDto): Track {
         return Track(
             trackId = dto.trackId,
-            trackName = dto.trackName,
-            artistName = dto.artistName,
+            trackName = dto.trackName ?: "",
+            artistName = dto.artistName ?: "",
             trackTimeMillis = dto.trackTimeMillis,
-            artworkUrl100 = dto.artworkUrl100,
+            artworkUrl100 = dto.artworkUrl100 ?: "",
             collectionName = dto.collectionName ?: "",
             releaseDate = dto.releaseDate ?: "",
-            primaryGenreName = dto.primaryGenreName,
-            country = dto.country,
+            primaryGenreName = dto.primaryGenreName ?: "",
+            country = dto.country ?: "",
             previewUrl = dto.previewUrl
         )
     }
