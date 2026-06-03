@@ -1,7 +1,8 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.domain.models.Track
 
 class TrackAdapter (
     private var trackList: List<Track>,
@@ -12,7 +13,7 @@ class TrackAdapter (
         return TrackViewHolder(parent)
     }
 
-    override fun onBindViewHolder(holder: TrackViewHolder,position: Int) {
+    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         val track = trackList[position]
         holder.bind(track)
 

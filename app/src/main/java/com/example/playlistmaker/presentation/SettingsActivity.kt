@@ -1,9 +1,5 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
-
-import android.content.Intent
-import android.content.Intent.ACTION_SEND
-import android.net.Uri
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
@@ -12,11 +8,12 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.models.ThemeSettings
+import com.example.playlistmaker.util.Creator
 import com.google.android.material.appbar.MaterialToolbar
-import androidx.core.net.toUri
 
-
-class SettingsActivity: AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -28,52 +25,36 @@ class SettingsActivity: AppCompatActivity() {
             insets
         }
 
+        val settingsInteractor = Creator.provideSettingsInteractor(this)
+        val sharingInteractor = Creator.provideSharingInteractor(this)
+
         val btnBackMainActivity = findViewById<MaterialToolbar>(R.id.tool_bar)
         val btnSharedApp = findViewById<LinearLayout>(R.id.liner_icon_shared_app)
         val btnEmailSupport = findViewById<LinearLayout>(R.id.liner_icon_support)
         val btnUserAgreement = findViewById<LinearLayout>(R.id.liner_icon_agreement)
         val themeSwitcher = findViewById<SwitchCompat>(R.id.dark_mode_switch)
 
-        themeSwitcher.isChecked = (applicationContext as App).darkTheme
+        themeSwitcher.isChecked = settingsInteractor.getThemeSettings().isDarkTheme
 
         themeSwitcher.setOnCheckedChangeListener { _, checked ->
+            settingsInteractor.updateThemeSetting(ThemeSettings(checked))
             (applicationContext as App).switchTheme(checked)
-
         }
 
-        btnBackMainActivity.setOnClickListener {
+        btnBackMainActivity.setNavigationOnClickListener {
             finish()
         }
 
         btnSharedApp.setOnClickListener {
-            val message = getString(R.string.url_address_curs)
-            val sharedAppIntent = Intent(ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, message)
-            }
-                startActivity(Intent.createChooser(sharedAppIntent, getString(R.string.send_email)))
-            }
+            sharingInteractor.shareApp()
+        }
 
         btnEmailSupport.setOnClickListener {
-            val email = getString(R.string.email)
-            val subject = getString(R.string.subject)
-            val text = getString(R.string.text)
-
-            val emailSupportIntent = Intent(ACTION_SEND).apply {
-                type = "message/rfc822"
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-                putExtra(Intent.EXTRA_SUBJECT, subject)
-                putExtra(Intent.EXTRA_TEXT, text)
-            }
-            startActivity(Intent.createChooser(emailSupportIntent, getString(R.string.send_email)))
+            sharingInteractor.contactSupport()
         }
 
         btnUserAgreement.setOnClickListener {
-            val url = getString(R.string.agreement_url)
-            val webpage: Uri = url.toUri()
-            val userAgreementIntent = Intent(Intent.ACTION_VIEW, webpage)
-            startActivity(Intent.createChooser(userAgreementIntent,getString(R.string.read_agreemen)))
+            sharingInteractor.openTerms()
         }
-
     }
 }
