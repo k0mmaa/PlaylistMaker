@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".presentation.App"
+        android:name=".main.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,19 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.PlaylistMaker">
         <activity
-            android:name=".presentation.SearchActivity"
+            android:name=".search.ui.SearchActivity"
             android:exported="false"
             android:theme="@style/Theme.PlaylistMaker.Settings" />
         <activity
-            android:name=".presentation.MediaActivity"
+            android:name=".search.MediaActivity"
             android:exported="false"
             android:theme="@style/Theme.PlaylistMaker.Settings"/>
         <activity
-            android:name=".presentation.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.PlaylistMaker.Settings"/>
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.PlayerActivity"
+            android:name=".player.PlayerActivity"
             android:exported="false"
             android:theme="@style/Theme.PlaylistMaker.Settings"/>
     </application>
