@@ -7,6 +7,7 @@ class AudioPlayerRepositoryImpl : AudioPlayerRepository {
     private var mediaPlayer = MediaPlayer()
 
     override fun preparePlayer(url: String, onPrepared: () -> Unit, onCompletion: () -> Unit) {
+        mediaPlayer.reset()
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {

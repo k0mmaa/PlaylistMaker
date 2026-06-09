@@ -2,6 +2,7 @@ package com.example.playlistmaker.search.ui
 
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,7 @@ class SearchViewModel(
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
     private val stateLiveData = MutableLiveData<SearchState>()
@@ -23,6 +25,7 @@ class SearchViewModel(
 
     private val handler = Handler(Looper.getMainLooper())
     private var lastSearchText: String? = null
+    private var lastClickTime = 0L
 
     private val searchRunnable = Runnable {
         val newSearchText = lastSearchText ?: ""
@@ -48,23 +51,12 @@ class SearchViewModel(
 
             tracksInteractor.searchTracks(newSearchText, object : TracksInteractor.TracksConsumer {
                 override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                    // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Проверяем, совпадает ли текущий текст с тем, что мы искали
                     if (newSearchText == lastSearchText) {
-                        val tracks = mutableListOf<Track>()
-                        if (foundTracks != null) {
-                            tracks.addAll(foundTracks)
-                        }
-
+                        val tracks = foundTracks ?: emptyList()
                         when {
-                            errorMessage != null -> {
-                                renderState(SearchState.Error(errorMessage))
-                            }
-                            tracks.isEmpty() -> {
-                                renderState(SearchState.Empty)
-                            }
-                            else -> {
-                                renderState(SearchState.Content(tracks))
-                            }
+                            errorMessage != null -> renderState(SearchState.Error(errorMessage))
+                            tracks.isEmpty() -> renderState(SearchState.Empty)
+                            else -> renderState(SearchState.Content(tracks))
                         }
                     }
                 }
@@ -73,6 +65,7 @@ class SearchViewModel(
     }
 
     fun showHistory() {
+        lastSearchText = ""
         val history = searchHistoryInteractor.getHistory()
         if (history.isNotEmpty()) {
             renderState(SearchState.History(history))
@@ -82,12 +75,22 @@ class SearchViewModel(
     }
 
     fun clearHistory() {
+        lastSearchText = ""
         searchHistoryInteractor.clearHistory()
         renderState(SearchState.Content(emptyList()))
     }
 
     fun addTrackToHistory(track: Track) {
         searchHistoryInteractor.addTrack(track)
+    }
+
+    fun clickDebounce(): Boolean {
+        val currentTime = SystemClock.elapsedRealtime()
+        if (currentTime - lastClickTime < CLICK_DEBOUNCE_DELAY) {
+            return false
+        }
+        lastClickTime = currentTime
+        return true
     }
 
     private fun renderState(state: SearchState) {

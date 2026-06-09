@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.playlistmaker.R
+import com.example.playlistmaker.search.MediaActivity
 import com.example.playlistmaker.search.ui.SearchActivity
 import com.example.playlistmaker.settings.ui.SettingsActivity
 
@@ -32,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnMedia.setOnClickListener {
-            // Временно оставляем переход на MediaActivity, если оно еще используется,
-            // но в будущем заменим на PlayerActivity или новый экран медиатеки.
+            val mediaIntent = Intent(this, MediaActivity::class.java)
+            startActivity(mediaIntent)
         }
 
         btnSettings.setOnClickListener {

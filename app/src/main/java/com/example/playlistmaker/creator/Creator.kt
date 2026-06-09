@@ -6,6 +6,7 @@ import com.example.playlistmaker.player.domain.api.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.api.AudioPlayerRepository
 import com.example.playlistmaker.player.domain.impl.AudioPlayerInteractorImpl
 import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
+import com.example.playlistmaker.search.data.network.TrackApiService
 import com.example.playlistmaker.search.data.repository.SearchHistoryRepositoryImpl
 import com.example.playlistmaker.search.data.repository.TracksRepositoryImpl
 import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
@@ -25,15 +26,24 @@ import com.example.playlistmaker.sharing.domain.api.SharingInteractor
 import com.example.playlistmaker.sharing.domain.api.SharingRepository
 import com.example.playlistmaker.sharing.domain.impl.SharingInteractorImpl
 import com.google.gson.Gson
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 object Creator {
-    
-    private fun getTracksRepository(): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient())
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://itunes.apple.com")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val itunesService = retrofit.create(TrackApiService::class.java)
+
+    private fun getTracksRepository(context: Context): TracksRepository {
+        return TracksRepositoryImpl(RetrofitNetworkClient(itunesService, context))
     }
 
-    fun provideTracksInteractor(): TracksInteractor {
-        return TracksInteractorImpl(getTracksRepository())
+    fun provideTracksInteractor(context: Context): TracksInteractor {
+        return TracksInteractorImpl(getTracksRepository(context))
     }
 
     private fun getAudioPlayerRepository(): AudioPlayerRepository {
@@ -45,7 +55,8 @@ object Creator {
     }
 
     private fun getSearchHistoryRepository(context: Context): SearchHistoryRepository {
-        val sharedPrefs = context.applicationContext.getSharedPreferences("track_history_preferences", Context.MODE_PRIVATE)
+        // Используем единое имя файла настроек для всего приложения
+        val sharedPrefs = context.applicationContext.getSharedPreferences("playlist_maker_preferences", Context.MODE_PRIVATE)
         return SearchHistoryRepositoryImpl(sharedPrefs, Gson())
     }
 
@@ -54,7 +65,7 @@ object Creator {
     }
 
     private fun getSettingsRepository(context: Context): SettingsRepository {
-        val sharedPrefs = context.applicationContext.getSharedPreferences("settings_preferences", Context.MODE_PRIVATE)
+        val sharedPrefs = context.applicationContext.getSharedPreferences("playlist_maker_preferences", Context.MODE_PRIVATE)
         return SettingsRepositoryImpl(sharedPrefs)
     }
 

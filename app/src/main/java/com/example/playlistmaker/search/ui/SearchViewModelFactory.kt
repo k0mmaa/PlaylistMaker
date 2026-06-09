@@ -8,7 +8,7 @@ import com.example.playlistmaker.creator.Creator
 class SearchViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return SearchViewModel(
-            Creator.provideTracksInteractor(),
+            Creator.provideTracksInteractor(context),
             Creator.provideSearchHistoryInteractor(context)
         ) as T
     }

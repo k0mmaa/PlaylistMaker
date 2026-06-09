@@ -8,9 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.playlistmaker"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.playlistmaker"
@@ -54,4 +52,6 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    implementation(libs.koin.android)
+    implementation(libs.koin.core)
 }

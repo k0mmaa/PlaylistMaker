@@ -3,8 +3,6 @@ package com.example.playlistmaker.player.ui
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -20,8 +18,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.search.domain.models.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -29,13 +27,9 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object {
         const val INPUT_TRACK = "track"
-        const val delayMills = 300L
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
     }
 
+    private val viewModel by viewModel<PlayerViewModel>()
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
 
     private lateinit var backgroundImageView: ImageView
@@ -49,19 +43,6 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var countryNameValueTextView: TextView
     private lateinit var primaryGenreNameValueTextView: TextView
 
-    private val audioPlayerInteractor = Creator.provideAudioPlayerInteractor()
-    
-    private var playerState = STATE_DEFAULT
-    private var previewUrl: String? = null
-
-    private val handler = Handler(Looper.getMainLooper())
-    private val updateTimeRunnable = object : Runnable {
-        override fun run() {
-            playbackTimeTextView.text = dateFormat.format(audioPlayerInteractor.getCurrentPosition().toLong())
-            handler.postDelayed(this, delayMills)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -72,11 +53,18 @@ class PlayerActivity : AppCompatActivity() {
         val track = getTrackFromIntent()
         if (track != null) {
             bindTrack(track)
-            preparePlayer(track.previewUrl)
+            viewModel.preparePlayer(track.previewUrl)
+        } else {
+            Toast.makeText(this, "Track not found", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+
+        viewModel.observeState().observe(this) { state ->
+            render(state)
         }
 
         playImageView.setOnClickListener {
-            playbackControl()
+            viewModel.playbackControl()
         }
 
         findViewById<Toolbar>(R.id.tool_bar).setNavigationOnClickListener {
@@ -131,58 +119,30 @@ class PlayerActivity : AppCompatActivity() {
             .into(backgroundImageView)
     }
 
-    private fun preparePlayer(url: String?) {
-        if (url.isNullOrEmpty()) {
-            playImageView.isEnabled = false
-            Toast.makeText(this, "No preview available", Toast.LENGTH_SHORT).show()
-            return
-        }
-        
-        audioPlayerInteractor.preparePlayer(
-            url = url,
-            onPrepared = {
-                playImageView.isEnabled = true
-                playerState = STATE_PREPARED
-            },
-            onCompletion = {
-                handler.removeCallbacks(updateTimeRunnable)
+    private fun render(state: PlayerState) {
+        when (state) {
+            is PlayerState.Playing -> {
+                playImageView.setImageResource(R.drawable.ic_pause_btn)
+                playbackTimeTextView.text = state.playbackTime
+            }
+            is PlayerState.Paused -> {
                 playImageView.setImageResource(R.drawable.ic_play_btn)
-                playerState = STATE_PREPARED
+                playbackTimeTextView.text = state.playbackTime
+            }
+            is PlayerState.Prepared -> {
+                playImageView.setImageResource(R.drawable.ic_play_btn)
+                playbackTimeTextView.text = state.playbackTime
+            }
+            is PlayerState.Default -> {
+                playImageView.setImageResource(R.drawable.ic_play_btn)
                 playbackTimeTextView.text = dateFormat.format(0L)
             }
-        )
-    }
-
-    private fun startPlayer() {
-        audioPlayerInteractor.startPlayer()
-        playImageView.setImageResource(R.drawable.ic_pause_btn)
-        playerState = STATE_PLAYING
-        handler.post(updateTimeRunnable)
-    }
-
-    private fun pausePlayer() {
-        audioPlayerInteractor.pausePlayer()
-        playImageView.setImageResource(R.drawable.ic_play_btn)
-        playerState = STATE_PAUSED
-        handler.removeCallbacks(updateTimeRunnable)
-    }
-
-    private fun playbackControl() {
-        when (playerState) {
-            STATE_PLAYING -> pausePlayer()
-            STATE_PREPARED, STATE_PAUSED -> startPlayer()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        pausePlayer()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacks(updateTimeRunnable)
-        audioPlayerInteractor.release()
+        viewModel.pausePlayer()
     }
 
     private fun dpToPx(dp: Float, resource: Resources): Int {
