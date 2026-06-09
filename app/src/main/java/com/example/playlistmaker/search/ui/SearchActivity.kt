@@ -69,6 +69,9 @@ class SearchActivity : AppCompatActivity() {
 
         findViewById<MaterialToolbar>(R.id.tool_bar).setNavigationOnClickListener { finish() }
 
+        // Устанавливаем начальное состояние крестика
+        textInputLayout.isEndIconVisible = !inputEditText.text.isNullOrEmpty()
+
         inputEditText.addTextChangedListener(
             onTextChanged = { s, _, _, _ ->
                 textInputLayout.isEndIconVisible = !s.isNullOrEmpty()
