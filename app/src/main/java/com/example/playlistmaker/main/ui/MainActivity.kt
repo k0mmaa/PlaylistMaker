@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.playlistmaker.R
-import com.example.playlistmaker.search.MediaActivity
+import com.example.playlistmaker.media.ui.MediaActivity
 import com.example.playlistmaker.search.ui.SearchActivity
 import com.example.playlistmaker.settings.ui.SettingsActivity
 

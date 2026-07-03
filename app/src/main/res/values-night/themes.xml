@@ -3,6 +3,7 @@
         <!-- Customize your dark theme here. -->
 
         <item name="android:colorBackground">@color/yp_black</item>
+        <item name="colorBackground">@color/yp_black</item>
         <item name="colorOnBackground">@color/yp_white</item>
         <item name="colorPrimary">@color/yp_black</item>
         <item name="textColorPrimary">@color/yp_white</item>   <!-- текст на тулбаре -->
