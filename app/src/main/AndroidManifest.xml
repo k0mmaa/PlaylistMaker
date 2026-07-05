@@ -39,7 +39,7 @@
             android:theme="@style/Theme.PlaylistMaker.Settings"/>
 
         <activity
-            android:name="com.example.playlistmaker.search.MediaActivity"
+            android:name="com.example.playlistmaker.media.ui.MediaActivity"
             android:exported="false"
             android:theme="@style/Theme.PlaylistMaker.Settings"/>
 

@@ -3,6 +3,7 @@
         <!-- Customize your light theme here. -->
 
         <item name="android:colorBackground">@color/yp_blue</item>
+        <item name="colorBackground">@color/yp_blue</item>
         <item name="colorOnBackground">@color/yp_white</item>
         <item name="colorPrimary">@color/yp_blue</item>
         <item name="textColorPrimary">@color/yp_white</item>   <!-- текст на тулбаре -->
@@ -21,6 +22,7 @@
         <!-- Тема для экрана настроек, наследуем от родительской -->
     <style name="Theme.PlaylistMaker.Settings" parent="Base.Theme.PlaylistMaker">
             <item name="android:colorBackground">@color/yp_white</item>
+            <item name="colorBackground">@color/yp_white</item>
             <item name="colorOnBackground">@color/yp_black</item>
             <item name="textColorPrimary">@color/yp_black</item>         <!-- Для светлой темы -->
             <item name="textColorSecondary">@color/yp_black</item>       <!-- Для светлой темы -->

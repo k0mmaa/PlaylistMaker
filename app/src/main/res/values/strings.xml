@@ -12,14 +12,12 @@
     <string name="in_progress">Раздел в разработке</string>
     <string name="back">Вернуться в Главное меню</string>
 
-
     <!-- Email Support-->
     <string name="email">dmitri18@yandex.ru</string>
     <string name="subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="send_email">Отправить письмо</string>
 
-    
     <!-- URL-address -->
     <string name="url_address_curs">https://practicum.yandex.ru/android-developer/?from=catalog</string>
 
@@ -29,7 +27,6 @@
     <string name="network_error">Проблемы со связью \n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="nothing_found">Ничего не нашлось</string>
     <string name="refresh">Обновить</string>
-
 
     <!--SearchActivity -->
     <string name="you_searched">Вы искали</string>
@@ -44,5 +41,11 @@
     <!--Player Activity -->
     <string name="zero_time">0:00</string>
 
+    <!-- MediaActivity -->
+    <string name="favorite_tracks">Избранные треки</string>
+    <string name="playlists">Плейлисты</string>
+    <string name="empty_favorite_tracks">Ваша медиатека пуста</string>
+    <string name="empty_playlists">Вы не создали\nни одного плейлиста</string>
+    <string name="create_playlist">Новый плейлист</string>
 
 </resources>
