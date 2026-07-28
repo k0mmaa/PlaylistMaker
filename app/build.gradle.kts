@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
+    alias(libs.plugins.navigation.safeargs.kotlin)
 }
 
 android {
@@ -57,4 +58,7 @@ dependencies {
 
     implementation(libs.koin.android)
     implementation(libs.koin.core)
+
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 }

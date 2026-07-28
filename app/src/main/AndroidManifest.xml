@@ -16,32 +16,13 @@
 
         <activity
             android:name="com.example.playlistmaker.main.ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.example.playlistmaker.search.ui.SearchActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMaker.Settings" />
-
-        <activity
-            android:name="com.example.playlistmaker.settings.ui.SettingsActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMaker.Settings"/>
-
-        <activity
-            android:name="com.example.playlistmaker.player.ui.PlayerActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMaker.Settings"/>
-
-        <activity
-            android:name="com.example.playlistmaker.media.ui.MediaActivity"
-            android:exported="false"
-            android:theme="@style/Theme.PlaylistMaker.Settings"/>
 
     </application>
 

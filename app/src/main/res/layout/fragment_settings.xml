@@ -7,21 +7,15 @@
     android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
-    <!-- MaterialToolbar (заголовок + back) -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/tool_bar"
+    <TextView
+        android:id="@+id/settings_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/settings_item_spacing"
-        android:minHeight="?attr/actionBarSize"
-        android:contentInsetStart="0dp"
-        app:navigationIcon="@drawable/ic_arrow_back_24"
-        app:navigationIconTint="?android:attr/textColorPrimary"
-        app:title="@string/settings"
-        app:titleTextAppearance="@style/title" />
+        android:padding="16dp"
+        android:text="@string/settings"
+        style="@style/title" />
 
     <!-- Dark mode setting -->
-    <!-- Я вижу комментарий, но пока руки не дошли до исправления, макета. Обещаю исправиться позже-->
     <LinearLayout
         android:id="@+id/lists_dark_mode"
         style="@style/SettingsItem">
