@@ -42,6 +42,13 @@ class SearchViewModel(
         }
     }
 
+    fun search(newSearchText: String) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            searchRequest(newSearchText)
+        }
+    }
+
     private suspend fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             renderState(SearchState.Loading)
@@ -67,7 +74,7 @@ class SearchViewModel(
     }
 
     fun showHistory() {
-        lastSearchText = ""
+        lastSearchText = null
         val history = searchHistoryInteractor.getHistory()
         if (history.isNotEmpty()) {
             renderState(SearchState.History(history))
@@ -77,7 +84,7 @@ class SearchViewModel(
     }
 
     fun clearHistory() {
-        lastSearchText = ""
+        lastSearchText = null
         searchHistoryInteractor.clearHistory()
         renderState(SearchState.Content(emptyList()))
     }

@@ -75,12 +75,12 @@ class SearchFragment : Fragment() {
         }
 
         binding.refreshButton.setOnClickListener {
-            viewModel.searchDebounce(binding.inputStrings.text.toString())
+            viewModel.search(binding.inputStrings.text.toString())
         }
 
         binding.inputStrings.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.searchDebounce(binding.inputStrings.text.toString())
+                viewModel.search(binding.inputStrings.text.toString())
                 true
             } else false
         }

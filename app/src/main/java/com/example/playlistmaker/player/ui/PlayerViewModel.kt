@@ -23,11 +23,16 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
         audioPlayerInteractor.preparePlayer(
             url = url,
             onPrepared = {
-                stateLiveData.postValue(PlayerState.Prepared(dateFormat.format(0L)))
+
+                viewModelScope.launch {
+                    renderState(PlayerState.Prepared(dateFormat.format(0L)))
+                }
             },
             onCompletion = {
-                stopTimer()
-                stateLiveData.postValue(PlayerState.Prepared(dateFormat.format(0L)))
+                viewModelScope.launch {
+                    stopTimer()
+                    renderState(PlayerState.Prepared(dateFormat.format(0L)))
+                }
             }
         )
     }
@@ -42,24 +47,24 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
 
     private fun startPlayer() {
         audioPlayerInteractor.startPlayer()
+        renderState(PlayerState.Playing(getCurrentPlayerPosition()))
         startTimer()
     }
 
     fun pausePlayer() {
         audioPlayerInteractor.pausePlayer()
         stopTimer()
-        val currentTime = dateFormat.format(audioPlayerInteractor.getCurrentPosition().toLong())
-        stateLiveData.value = PlayerState.Paused(currentTime)
+        renderState(PlayerState.Paused(getCurrentPlayerPosition()))
     }
 
     private fun startTimer() {
+        timerJob?.cancel()
         timerJob = viewModelScope.launch {
-            while (stateLiveData.value is PlayerState.Playing || stateLiveData.value is PlayerState.Prepared || stateLiveData.value is PlayerState.Paused) {
-                if (stateLiveData.value is PlayerState.Playing) {
-                    val currentTime = dateFormat.format(audioPlayerInteractor.getCurrentPosition().toLong())
-                    stateLiveData.value = PlayerState.Playing(currentTime)
-                }
+            while (stateLiveData.value is PlayerState.Playing) {
                 delay(UPDATE_DELAY)
+                if (stateLiveData.value is PlayerState.Playing) {
+                    renderState(PlayerState.Playing(getCurrentPlayerPosition()))
+                }
             }
         }
     }
@@ -68,8 +73,17 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
         timerJob?.cancel()
     }
 
+    private fun getCurrentPlayerPosition(): String {
+        return dateFormat.format(audioPlayerInteractor.getCurrentPosition().toLong())
+    }
+
+    private fun renderState(state: PlayerState) {
+        stateLiveData.value = state
+    }
+
     override fun onCleared() {
         super.onCleared()
+        stopTimer()
         audioPlayerInteractor.release()
     }
 
