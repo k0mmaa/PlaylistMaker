@@ -1,11 +1,13 @@
 package com.example.playlistmaker.player.ui
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.api.AudioPlayerInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -14,26 +16,23 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
     private val stateLiveData = MutableLiveData<PlayerState>(PlayerState.Default)
     fun observeState(): LiveData<PlayerState> = stateLiveData
 
-    private val handler = Handler(Looper.getMainLooper())
     private val dateFormat by lazy(mode = LazyThreadSafetyMode.NONE) { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-
-    private val updateTimeRunnable = object : Runnable {
-        override fun run() {
-            val currentTime = dateFormat.format(audioPlayerInteractor.getCurrentPosition().toLong())
-            stateLiveData.value = PlayerState.Playing(currentTime)
-            handler.postDelayed(this, UPDATE_DELAY)
-        }
-    }
+    private var timerJob: Job? = null
 
     fun preparePlayer(url: String?) {
         audioPlayerInteractor.preparePlayer(
             url = url,
             onPrepared = {
-                stateLiveData.postValue(PlayerState.Prepared(dateFormat.format(0L)))
+
+                viewModelScope.launch {
+                    renderState(PlayerState.Prepared(dateFormat.format(0L)))
+                }
             },
             onCompletion = {
-                handler.removeCallbacks(updateTimeRunnable)
-                stateLiveData.postValue(PlayerState.Prepared(dateFormat.format(0L)))
+                viewModelScope.launch {
+                    stopTimer()
+                    renderState(PlayerState.Prepared(dateFormat.format(0L)))
+                }
             }
         )
     }
@@ -48,19 +47,43 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
 
     private fun startPlayer() {
         audioPlayerInteractor.startPlayer()
-        handler.post(updateTimeRunnable)
+        renderState(PlayerState.Playing(getCurrentPlayerPosition()))
+        startTimer()
     }
 
     fun pausePlayer() {
         audioPlayerInteractor.pausePlayer()
-        handler.removeCallbacks(updateTimeRunnable)
-        val currentTime = dateFormat.format(audioPlayerInteractor.getCurrentPosition().toLong())
-        stateLiveData.value = PlayerState.Paused(currentTime)
+        stopTimer()
+        renderState(PlayerState.Paused(getCurrentPlayerPosition()))
+    }
+
+    private fun startTimer() {
+        timerJob?.cancel()
+        timerJob = viewModelScope.launch {
+            while (stateLiveData.value is PlayerState.Playing) {
+                delay(UPDATE_DELAY)
+                if (stateLiveData.value is PlayerState.Playing) {
+                    renderState(PlayerState.Playing(getCurrentPlayerPosition()))
+                }
+            }
+        }
+    }
+
+    private fun stopTimer() {
+        timerJob?.cancel()
+    }
+
+    private fun getCurrentPlayerPosition(): String {
+        return dateFormat.format(audioPlayerInteractor.getCurrentPosition().toLong())
+    }
+
+    private fun renderState(state: PlayerState) {
+        stateLiveData.value = state
     }
 
     override fun onCleared() {
         super.onCleared()
-        handler.removeCallbacks(updateTimeRunnable)
+        stopTimer()
         audioPlayerInteractor.release()
     }
 
