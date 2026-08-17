@@ -1,5 +1,7 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.media.domain.api.FavoritesInteractor
+import com.example.playlistmaker.media.domain.impl.FavoritesInteractorImpl
 import com.example.playlistmaker.player.domain.api.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.impl.AudioPlayerInteractorImpl
 import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
@@ -11,6 +13,7 @@ import com.example.playlistmaker.settings.domain.impl.SettingsInteractorImpl
 import com.example.playlistmaker.sharing.domain.api.SharingInteractor
 import com.example.playlistmaker.sharing.domain.impl.SharingInteractorImpl
 import org.koin.dsl.module
+import kotlin.math.sin
 
 val interactorModule = module {
 
@@ -33,6 +36,10 @@ val interactorModule = module {
 
     single<SharingInteractor> {
         SharingInteractorImpl(get(), get())
+    }
+
+    single<FavoritesInteractor> {
+        FavoritesInteractorImpl(get())
     }
 
 }

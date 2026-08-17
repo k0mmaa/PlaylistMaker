@@ -8,6 +8,7 @@
     <color name="yp_text_gray">#AEAFB4</color>
     <color name="yp_yellow">#FCD452</color>
     <color name="playerButtonBackground">#401A1B22</color>
+    <color name="yp_red">#FF0000</color>
 
 
 </resources>

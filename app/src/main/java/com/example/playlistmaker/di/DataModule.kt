@@ -1,6 +1,9 @@
 package com.example.playlistmaker.di
 
 import android.content.Context
+import androidx.room.Room
+import com.example.playlistmaker.data.db.AppDatabase
+import com.example.playlistmaker.media.data.converter.TrackConverter
 import com.example.playlistmaker.search.data.network.NetworkClient
 import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
 import com.example.playlistmaker.search.data.network.TrackApiService
@@ -29,6 +32,19 @@ val dataModule = module {
 
     single<NetworkClient> {
         RetrofitNetworkClient(get(), androidContext())
+    }
+
+    //создаю базу данных
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .build()
+    }
+
+    single {
+        get<AppDatabase>().getTrackDao()
+    }
+    single {
+        TrackConverter()
     }
 
 }

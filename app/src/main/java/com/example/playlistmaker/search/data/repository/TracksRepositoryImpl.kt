@@ -1,5 +1,6 @@
 package com.example.playlistmaker.search.data.repository
 
+import com.example.playlistmaker.data.db.TrackDao
 import com.example.playlistmaker.search.data.dto.TrackSearchRequest
 import com.example.playlistmaker.search.data.dto.TrackSearchResponse
 import com.example.playlistmaker.search.data.network.NetworkClient
@@ -11,7 +12,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
+class TracksRepositoryImpl(
+    private val networkClient: NetworkClient,
+    private val trackDao: TrackDao) : TracksRepository {
 
     override fun searchTracks(expression: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequest(TrackSearchRequest(expression))
@@ -34,7 +37,16 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
                         previewUrl = it.previewUrl
                     )
                 } ?: emptyList()
-                emit(Resource.Success(tracks))
+
+                val favoriteIds = trackDao.getFavoriteTrackIds()
+
+                val tracksWithFavorites = tracks.map { track ->
+                    track.apply {
+                        isFavorite = favoriteIds.contains(track.trackId)
+                    }
+                }
+
+                emit(Resource.Success(tracksWithFavorites))
             }
             else -> {
                 emit(Resource.Error("Ошибка сервера"))

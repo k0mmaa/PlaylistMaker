@@ -75,22 +75,28 @@ class SearchViewModel(
 
     fun showHistory() {
         lastSearchText = null
-        val history = searchHistoryInteractor.getHistory()
-        if (history.isNotEmpty()) {
-            renderState(SearchState.History(history))
-        } else {
-            renderState(SearchState.Content(emptyList()))
+        viewModelScope.launch {
+            val history = searchHistoryInteractor.getHistory()
+            if (history.isNotEmpty()) {
+                renderState(SearchState.History(history))
+            } else {
+                renderState(SearchState.Content(emptyList()))
+            }
         }
     }
 
     fun clearHistory() {
         lastSearchText = null
-        searchHistoryInteractor.clearHistory()
-        renderState(SearchState.Content(emptyList()))
+        viewModelScope.launch {
+            searchHistoryInteractor.clearHistory()
+            renderState(SearchState.Content(emptyList()))
+        }
     }
 
     fun addTrackToHistory(track: Track) {
-        searchHistoryInteractor.addTrack(track)
+        viewModelScope.launch {
+            searchHistoryInteractor.addTrack(track)
+        }
     }
 
     fun clickDebounce(): Boolean {

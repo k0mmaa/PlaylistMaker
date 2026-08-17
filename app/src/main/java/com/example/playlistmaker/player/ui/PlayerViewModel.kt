@@ -4,14 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.media.domain.api.FavoritesInteractor
 import com.example.playlistmaker.player.domain.api.AudioPlayerInteractor
+import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) : ViewModel() {
+class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor, private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<PlayerState>(PlayerState.Default)
     fun observeState(): LiveData<PlayerState> = stateLiveData
@@ -86,8 +88,21 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor) 
         stopTimer()
         audioPlayerInteractor.release()
     }
+    fun addToFavorites(track: Track) {
+        viewModelScope.launch {
+            favoritesInteractor.addTrackToFavorites(track)
+        }
+    }
+
+    fun removeFromFavorites(track: Track) {
+        viewModelScope.launch {
+            favoritesInteractor.removeTrackFromFavorites(track)
+        }
+    }
 
     companion object {
         private const val UPDATE_DELAY = 300L
     }
+
+
 }

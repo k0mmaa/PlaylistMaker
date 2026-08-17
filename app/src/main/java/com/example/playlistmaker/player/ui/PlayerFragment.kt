@@ -6,6 +6,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -25,6 +26,7 @@ class PlayerFragment : Fragment() {
 
     private val viewModel by viewModel<PlayerViewModel>()
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    private var currentTrack: Track? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +41,10 @@ class PlayerFragment : Fragment() {
 
         val track = getTrackFromArguments()
         if (track != null) {
+            currentTrack = track
             bindTrack(track)
             viewModel.preparePlayer(track.previewUrl)
+            updateLikeButton(track)
         } else {
             findNavController().popBackStack()
         }
@@ -53,9 +57,36 @@ class PlayerFragment : Fragment() {
             viewModel.playbackControl()
         }
 
+        binding.favorite.setOnClickListener {
+            currentTrack?.let { track ->
+                onLikeButtonClick(track)
+            }
+        }
+
         binding.toolBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun updateLikeButton(track: Track) {
+        binding.favorite.apply {
+            if (track.isFavorite) {
+                setImageResource(R.drawable.ic_add_in_favorites_active)
+            } else {
+                setImageResource(R.drawable.ic_add_in_favorites)
+            }
+        }
+    }
+
+    private fun onLikeButtonClick(track: Track){
+        if (track.isFavorite) {
+            viewModel.removeFromFavorites(track)
+            track.isFavorite = false
+        } else {
+            viewModel.addToFavorites(track)
+            track.isFavorite = true
+        }
+        updateLikeButton(track)
     }
 
     private fun getTrackFromArguments(): Track? {

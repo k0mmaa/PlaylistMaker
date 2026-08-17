@@ -1,6 +1,14 @@
 package com.example.playlistmaker.creator
 
 import android.content.Context
+import androidx.room.Room
+import com.example.playlistmaker.data.db.AppDatabase
+import com.example.playlistmaker.data.db.TrackDao
+import com.example.playlistmaker.media.data.converter.TrackConverter
+import com.example.playlistmaker.media.data.repository.FavoritesRepositoryImpl
+import com.example.playlistmaker.media.domain.api.FavoritesInteractor
+import com.example.playlistmaker.media.domain.api.FavoritesRepository
+import com.example.playlistmaker.media.domain.impl.FavoritesInteractorImpl
 import com.example.playlistmaker.player.data.AudioPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.api.AudioPlayerInteractor
 import com.example.playlistmaker.player.domain.api.AudioPlayerRepository
@@ -39,7 +47,10 @@ object Creator {
     private val itunesService = retrofit.create(TrackApiService::class.java)
 
     private fun getTracksRepository(context: Context): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient(itunesService, context))
+        return TracksRepositoryImpl(
+            RetrofitNetworkClient(itunesService, context),
+            getTrackDao(context)
+        )
     }
 
     fun provideTracksInteractor(context: Context): TracksInteractor {
@@ -57,7 +68,7 @@ object Creator {
     private fun getSearchHistoryRepository(context: Context): SearchHistoryRepository {
         // Используем единое имя файла настроек для всего приложения
         val sharedPrefs = context.applicationContext.getSharedPreferences("playlist_maker_preferences", Context.MODE_PRIVATE)
-        return SearchHistoryRepositoryImpl(sharedPrefs, Gson())
+        return SearchHistoryRepositoryImpl(sharedPrefs, Gson(), getTrackDao(context))
     }
 
     fun provideSearchHistoryInteractor(context: Context): SearchHistoryInteractor {
@@ -86,5 +97,19 @@ object Creator {
             getExternalNavigator(context),
             getSharingRepository(context)
         )
+    }
+
+    private fun getTrackDao(context: Context): TrackDao {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "database.db")
+            .build()
+            .getTrackDao()
+    }
+
+    private fun getFavoritesRepository(context: Context): FavoritesRepository {
+        return FavoritesRepositoryImpl(getTrackDao(context), TrackConverter())
+    }
+
+    fun provideFavoritesInteractor(context: Context): FavoritesInteractor {
+        return FavoritesInteractorImpl(getFavoritesRepository(context))
     }
 }

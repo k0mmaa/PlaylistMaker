@@ -5,15 +5,15 @@ import com.example.playlistmaker.search.domain.api.SearchHistoryRepository
 import com.example.playlistmaker.search.domain.models.Track
 
 class SearchHistoryInteractorImpl(private val repository: SearchHistoryRepository) : SearchHistoryInteractor {
-    override fun getHistory(): List<Track> {
+    override suspend fun getHistory(): List<Track> {
         return repository.getHistory()
     }
 
-    override fun addTrack(track: Track) {
+    override suspend fun addTrack(track: Track) {
         repository.addTrack(track)
     }
 
-    override fun clearHistory() {
+    override suspend fun clearHistory() {
         repository.clearHistory()
     }
 }

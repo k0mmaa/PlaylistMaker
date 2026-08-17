@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.FragmentFavoritesBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.playlistmaker.search.ui.TrackAdapter
+import com.example.playlistmaker.search.domain.models.Track
 
 class FavoritesFragment : Fragment() {
 
@@ -15,6 +18,8 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var trackAdapter: TrackAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,6 +27,59 @@ class FavoritesFragment : Fragment() {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
+        observeState()
+    }
+
+    private fun observeState() {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            renderState(state)
+        }
+    }
+
+    private fun initRecyclerView() {
+        trackAdapter = TrackAdapter(emptyList()) { track ->
+            onTrackClick(track)
+        }
+        binding.favoritesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = trackAdapter
+        }
+    }
+
+    private fun onTrackClick(track: Track) {
+        // Обработка клика на трек
+        val action = FavoritesFragmentDirections.actionFavoritesFragmentToPlayerFragment(track)
+    }
+        private fun renderState(state: FavoritesState) {
+            when (state) {
+                is FavoritesState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.favoritesRecyclerView.visibility = View.GONE
+                    binding.emptyView.visibility = View.GONE
+                }
+                is FavoritesState.Content -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.favoritesRecyclerView.visibility = View.VISIBLE
+                    binding.emptyView.visibility = View.GONE
+                    trackAdapter.updateTracks(state.tracks)
+                }
+                is FavoritesState.Empty -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.favoritesRecyclerView.visibility = View.GONE
+                    binding.emptyView.visibility = View.VISIBLE
+                }
+                is FavoritesState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.favoritesRecyclerView.visibility = View.GONE
+                    binding.emptyView.visibility = View.VISIBLE
+                }
+            }
+        }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
