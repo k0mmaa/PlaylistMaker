@@ -6,7 +6,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -26,7 +25,6 @@ class PlayerFragment : Fragment() {
 
     private val viewModel by viewModel<PlayerViewModel>()
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-    private var currentTrack: Track? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,10 +39,8 @@ class PlayerFragment : Fragment() {
 
         val track = getTrackFromArguments()
         if (track != null) {
-            currentTrack = track
             bindTrack(track)
-            viewModel.preparePlayer(track.previewUrl)
-            updateLikeButton(track)
+            viewModel.setTrack(track)
         } else {
             findNavController().popBackStack()
         }
@@ -53,14 +49,16 @@ class PlayerFragment : Fragment() {
             render(state)
         }
 
+        viewModel.observeIsFavorite().observe(viewLifecycleOwner) { isFavorite ->
+            updateLikeButton(isFavorite)
+        }
+
         binding.play.setOnClickListener {
             viewModel.playbackControl()
         }
 
         binding.favorite.setOnClickListener {
-            currentTrack?.let { track ->
-                onLikeButtonClick(track)
-            }
+            viewModel.onFavoriteClicked()
         }
 
         binding.toolBar.setNavigationOnClickListener {
@@ -68,25 +66,10 @@ class PlayerFragment : Fragment() {
         }
     }
 
-    private fun updateLikeButton(track: Track) {
-        binding.favorite.apply {
-            if (track.isFavorite) {
-                setImageResource(R.drawable.ic_add_in_favorites_active)
-            } else {
-                setImageResource(R.drawable.ic_add_in_favorites)
-            }
-        }
-    }
-
-    private fun onLikeButtonClick(track: Track){
-        if (track.isFavorite) {
-            viewModel.removeFromFavorites(track)
-            track.isFavorite = false
-        } else {
-            viewModel.addToFavorites(track)
-            track.isFavorite = true
-        }
-        updateLikeButton(track)
+    private fun updateLikeButton(isFavorite: Boolean) {
+        binding.favorite.setImageResource(
+            if (isFavorite) R.drawable.ic_add_in_favorites_active else R.drawable.ic_add_in_favorites
+        )
     }
 
     private fun getTrackFromArguments(): Track? {

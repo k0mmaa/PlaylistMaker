@@ -17,8 +17,13 @@ interface TrackDao {
     @Delete()
     suspend fun deleteTrackEntity(trackEntity: TrackEntity)
 
+    // Удаление трека из таблицы избранных треков по ID
+    @Query("DELETE FROM tracks WHERE id = :trackId")
+    suspend fun deleteTrackById(trackId: Long)
+
     //метод @Query для получения списка со всеми треками, добавленными в избранное;
-    @Query("Select * from tracks")
+    // Сортируем по времени добавления: последние добавленные сверху
+    @Query("SELECT * FROM tracks ORDER BY additionTimestamp DESC")
     fun getTracks(): Flow<List<TrackEntity>>
 
 

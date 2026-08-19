@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.api.FavoritesInteractor
 import com.example.playlistmaker.search.domain.models.Track
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
@@ -14,8 +15,14 @@ class FavoritesViewModel(
     private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel()
 {
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+    }
+
     private val _state = MutableLiveData<FavoritesState>(FavoritesState.Loading)
     val state: LiveData<FavoritesState> = _state
+
+    private var isClickAllowed = true
 
     init {
         loadFavorites()
@@ -38,10 +45,22 @@ class FavoritesViewModel(
         }
     }
 
-    fun removeTrackFromFavorites(track: Track) {
+    fun removeTrackFromFavorites(trackId: Long) {
         viewModelScope.launch {
-            favoritesInteractor.removeTrackFromFavorites(track)
+            favoritesInteractor.removeTrackFromFavorites(trackId)
         }
+    }
+
+    fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewModelScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
+        }
+        return current
     }
 }
 

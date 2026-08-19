@@ -22,4 +22,5 @@ data class TrackEntity (
     @ColumnInfo(name = "duration")
     val trackTimeMillisValue: Long, //продолжительность трека в формате mm:ss,
     val songUrl: String?, //ссылка на файл для воспроизведения.
+    val additionTimestamp: Long // время добавления в избранное
 )

@@ -16,21 +16,19 @@ class FavoritesRepositoryImpl(
 ): FavoritesRepository {
 
     override suspend fun addTrackToFavorites(track: Track): Resource<Unit> {
-        return try {
-            trackDao.insertNewTrack(converter.map(track))
-            Resource.Success(Unit)
-        } catch (e: Exception) {
-            Resource.Error("Ошибка при добавлении в избранное")
-        }
+        return runCatching { trackDao.insertNewTrack(converter.map(track)) }
+            .fold(
+                onSuccess = { Resource.Success(Unit) },
+                onFailure = { Resource.Error("Ошибка при добавлении в избранное") }
+            )
     }
 
-    override suspend fun removeTrackFromFavorites(track: Track): Resource<Unit> {
-        return try {
-            trackDao.deleteTrackEntity(converter.map(track))
-            Resource.Success(Unit)
-        } catch (e: Exception) {
-            Resource.Error("Ошибка при удалении из избранного")
-        }
+    override suspend fun removeTrackFromFavorites(trackId: Long): Resource<Unit> {
+        return runCatching { trackDao.deleteTrackById(trackId) }
+            .fold(
+                onSuccess = { Resource.Success(Unit) },
+                onFailure = { Resource.Error("Ошибка при удалении из избранного") }
+            )
     }
 
     override fun getFavoritesTracks(): Flow<List<Track>> {
@@ -38,7 +36,7 @@ class FavoritesRepositoryImpl(
             .map { entities ->
                 entities.map { entity ->
                     converter.map(entity)
-                }.sortedByDescending { it.trackId}
+                }
             }
             .flowOn(Dispatchers.IO)
     }

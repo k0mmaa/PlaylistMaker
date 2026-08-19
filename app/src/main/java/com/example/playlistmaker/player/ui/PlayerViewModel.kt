@@ -13,19 +13,41 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor, private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
+class PlayerViewModel(
+    private val audioPlayerInteractor: AudioPlayerInteractor,
+    private val favoritesInteractor: FavoritesInteractor
+) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<PlayerState>(PlayerState.Default)
     fun observeState(): LiveData<PlayerState> = stateLiveData
 
-    private val dateFormat by lazy(mode = LazyThreadSafetyMode.NONE) { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-    private var timerJob: Job? = null
+    private val isFavoriteLiveData = MutableLiveData<Boolean>()
+    fun observeIsFavorite(): LiveData<Boolean> = isFavoriteLiveData
 
-    fun preparePlayer(url: String?) {
+    private val dateFormat by lazy(mode = LazyThreadSafetyMode.NONE) {
+        SimpleDateFormat("mm:ss", Locale.getDefault())
+    }
+    private var timerJob: Job? = null
+    private var track: Track? = null
+
+    fun setTrack(track: Track) {
+        this.track = track
+        checkFavoriteStatus(track.trackId)
+        preparePlayer(track.previewUrl)
+    }
+
+    private fun checkFavoriteStatus(trackId: Long) {
+        viewModelScope.launch {
+            favoritesInteractor.getFavoritesTracks().collect { tracks ->
+                isFavoriteLiveData.postValue(tracks.any { it.trackId == trackId })
+            }
+        }
+    }
+
+    private fun preparePlayer(url: String?) {
         audioPlayerInteractor.preparePlayer(
             url = url,
             onPrepared = {
-
                 viewModelScope.launch {
                     renderState(PlayerState.Prepared(dateFormat.format(0L)))
                 }
@@ -88,21 +110,20 @@ class PlayerViewModel(private val audioPlayerInteractor: AudioPlayerInteractor, 
         stopTimer()
         audioPlayerInteractor.release()
     }
-    fun addToFavorites(track: Track) {
-        viewModelScope.launch {
-            favoritesInteractor.addTrackToFavorites(track)
-        }
-    }
 
-    fun removeFromFavorites(track: Track) {
+    fun onFavoriteClicked() {
+        val currentTrack = track ?: return
+        val isFavorite = isFavoriteLiveData.value ?: false
         viewModelScope.launch {
-            favoritesInteractor.removeTrackFromFavorites(track)
+            if (isFavorite) {
+                favoritesInteractor.removeTrackFromFavorites(currentTrack.trackId)
+            } else {
+                favoritesInteractor.addTrackToFavorites(currentTrack)
+            }
         }
     }
 
     companion object {
         private const val UPDATE_DELAY = 300L
     }
-
-
 }
