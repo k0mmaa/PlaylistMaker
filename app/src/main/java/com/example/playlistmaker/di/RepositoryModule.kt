@@ -47,4 +47,8 @@ val repositoryModule = module {
         FavoritesRepositoryImpl(get(),get ())
     }
 
+    single<com.example.playlistmaker.media.domain.api.PlaylistRepository> {
+        com.example.playlistmaker.media.data.repository.PlaylistRepositoryImpl(get(), get(), get(), get(), get())
+    }
+
 }

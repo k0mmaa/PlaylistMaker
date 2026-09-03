@@ -24,6 +24,8 @@
         <item name="placeholderPrimaryColor">@color/yp_black</item>
         <item name="placeholderSecondaryColor">@color/yp_black</item>
         <item name="placeholderAccentColor">@color/yp_yellow</item>
+
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
         <!-- Тема для экрана настроек, наследуем от родительской -->

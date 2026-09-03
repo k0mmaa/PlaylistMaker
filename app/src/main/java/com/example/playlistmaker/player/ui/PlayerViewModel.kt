@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.api.FavoritesInteractor
+import com.example.playlistmaker.media.domain.api.PlaylistInteractor
 import com.example.playlistmaker.player.domain.api.AudioPlayerInteractor
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.Job
@@ -12,10 +13,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.example.playlistmaker.media.domain.models.Playlist
 
 class PlayerViewModel(
     private val audioPlayerInteractor: AudioPlayerInteractor,
-    private val favoritesInteractor: FavoritesInteractor
+    private val favoritesInteractor: FavoritesInteractor,
+    private val playlistInteractor: PlaylistInteractor,
 ) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<PlayerState>(PlayerState.Default)
@@ -23,6 +26,19 @@ class PlayerViewModel(
 
     private val isFavoriteLiveData = MutableLiveData<Boolean>()
     fun observeIsFavorite(): LiveData<Boolean> = isFavoriteLiveData
+    private val playlistsLiveData = MutableLiveData<List<Playlist>>()
+
+    fun observePlaylists(): LiveData<List<Playlist>> = playlistsLiveData
+
+    private val addingResultLiveData = MutableLiveData<PlaylistAddingResult>()
+    fun observeAddingResult(): LiveData<PlaylistAddingResult> = addingResultLiveData
+
+    init {
+    loadPlaylists()
+
+    }
+
+
 
     private val dateFormat by lazy(mode = LazyThreadSafetyMode.NONE) {
         SimpleDateFormat("mm:ss", Locale.getDefault())
@@ -40,6 +56,14 @@ class PlayerViewModel(
         viewModelScope.launch {
             favoritesInteractor.getFavoritesTracks().collect { tracks ->
                 isFavoriteLiveData.postValue(tracks.any { it.trackId == trackId })
+            }
+        }
+    }
+
+    private fun loadPlaylists() {
+        viewModelScope.launch {
+            playlistInteractor.getPlaylists().collect { playlists ->
+                playlistsLiveData.postValue(playlists)
             }
         }
     }
@@ -122,6 +146,23 @@ class PlayerViewModel(
             }
         }
     }
+
+    fun onPlaylistClicked(playlist: Playlist) {
+        val currentTrack = track ?: return
+
+        if (playlist.trackIds.contains(currentTrack.trackId)) {
+
+            addingResultLiveData.postValue(PlaylistAddingResult.AlreadyExists(playlist.name))
+        } else {
+
+            viewModelScope.launch {
+                playlistInteractor.addTrackToPlaylist(playlist, currentTrack)
+                addingResultLiveData.postValue(PlaylistAddingResult.Success(playlist.name))
+            }
+        }
+    }
+
+
 
     companion object {
         private const val UPDATE_DELAY = 300L

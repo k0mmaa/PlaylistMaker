@@ -42,4 +42,8 @@ val interactorModule = module {
         FavoritesInteractorImpl(get())
     }
 
+    single<com.example.playlistmaker.media.domain.api.PlaylistInteractor> {
+        com.example.playlistmaker.media.domain.impl.PlaylistInteractorImpl(get())
+    }
+
 }
