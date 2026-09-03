@@ -1,5 +1,7 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.media.data.repository.FavoritesRepositoryImpl
+import com.example.playlistmaker.media.domain.api.FavoritesRepository
 import com.example.playlistmaker.player.data.AudioPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.api.AudioPlayerRepository
 import com.example.playlistmaker.search.data.repository.SearchHistoryRepositoryImpl
@@ -17,11 +19,11 @@ import org.koin.dsl.module
 val repositoryModule = module {
 
     single<TracksRepository> {
-        TracksRepositoryImpl(get())
+        TracksRepositoryImpl(get(), get ())
     }
 
     single<SearchHistoryRepository> {
-        SearchHistoryRepositoryImpl(get(), get())
+        SearchHistoryRepositoryImpl(get(),get (),get ())
     }
 
     // Изменено на factory, чтобы каждый раз создавался новый плеер
@@ -39,6 +41,10 @@ val repositoryModule = module {
 
     single<SharingRepository> {
         SharingRepositoryImpl(get())
+    }
+
+    single<FavoritesRepository> {
+        FavoritesRepositoryImpl(get(),get ())
     }
 
 }

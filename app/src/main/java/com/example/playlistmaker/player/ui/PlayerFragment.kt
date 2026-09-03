@@ -40,7 +40,7 @@ class PlayerFragment : Fragment() {
         val track = getTrackFromArguments()
         if (track != null) {
             bindTrack(track)
-            viewModel.preparePlayer(track.previewUrl)
+            viewModel.setTrack(track)
         } else {
             findNavController().popBackStack()
         }
@@ -49,13 +49,27 @@ class PlayerFragment : Fragment() {
             render(state)
         }
 
+        viewModel.observeIsFavorite().observe(viewLifecycleOwner) { isFavorite ->
+            updateLikeButton(isFavorite)
+        }
+
         binding.play.setOnClickListener {
             viewModel.playbackControl()
+        }
+
+        binding.favorite.setOnClickListener {
+            viewModel.onFavoriteClicked()
         }
 
         binding.toolBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun updateLikeButton(isFavorite: Boolean) {
+        binding.favorite.setImageResource(
+            if (isFavorite) R.drawable.ic_add_in_favorites_active else R.drawable.ic_add_in_favorites
+        )
     }
 
     private fun getTrackFromArguments(): Track? {

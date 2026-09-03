@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     android:background="?attr/colorBackground">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/ic_placeholder_nothing"
-        android:contentDescription="@string/empty_favorite_tracks"/>
-
-    <TextView
+    <!-- ProgressBar для загрузки -->
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/empty_favorite_tracks"
-        style="@style/ys_medium_19"
-        android:textColor="?attr/textColorPrimary"
-        android:gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-</LinearLayout>
+    <!-- RecyclerView для списка треков -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoritesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- Заглушка для пустого состояния -->
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="?attr/colorBackground">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_placeholder_nothing"
+            android:contentDescription="@string/empty_favorite_tracks" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/empty_favorite_tracks"
+            style="@style/ys_medium_19"
+            android:textColor="?attr/textColorPrimary"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</FrameLayout>
