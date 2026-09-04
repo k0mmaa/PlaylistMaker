@@ -55,6 +55,7 @@ class PlayerFragment : Fragment() {
 
         initRecyclerView()
         observeAddingResult()
+        viewModel.loadPlaylists()
 
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             render(state)

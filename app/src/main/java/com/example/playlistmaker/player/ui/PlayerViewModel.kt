@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 import com.example.playlistmaker.media.domain.models.Playlist
+import com.example.playlistmaker.util.SingleLiveEvent
 
 class PlayerViewModel(
     private val audioPlayerInteractor: AudioPlayerInteractor,
@@ -30,15 +31,8 @@ class PlayerViewModel(
 
     fun observePlaylists(): LiveData<List<Playlist>> = playlistsLiveData
 
-    private val addingResultLiveData = MutableLiveData<PlaylistAddingResult>()
+    private val addingResultLiveData = SingleLiveEvent<PlaylistAddingResult>()
     fun observeAddingResult(): LiveData<PlaylistAddingResult> = addingResultLiveData
-
-    init {
-    loadPlaylists()
-
-    }
-
-
 
     private val dateFormat by lazy(mode = LazyThreadSafetyMode.NONE) {
         SimpleDateFormat("mm:ss", Locale.getDefault())
@@ -60,7 +54,7 @@ class PlayerViewModel(
         }
     }
 
-    private fun loadPlaylists() {
+    fun loadPlaylists() {
         viewModelScope.launch {
             playlistInteractor.getPlaylists().collect { playlists ->
                 playlistsLiveData.postValue(playlists)

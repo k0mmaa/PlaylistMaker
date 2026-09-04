@@ -36,6 +36,7 @@ class PlaylistsFragment : Fragment() {
         }
         initRecyclerView()
         observeState()
+        viewModel.loadPlaylists()
     }
 
     override fun onDestroyView() {

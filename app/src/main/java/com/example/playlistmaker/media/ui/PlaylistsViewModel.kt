@@ -19,11 +19,6 @@ class PlaylistsViewModel(
     private val _state = MutableLiveData<PlaylistsState>(PlaylistsState.Empty)
     val state: LiveData<PlaylistsState> = _state
 
-
-    init {
-        loadPlaylists()
-    }
-
     fun loadPlaylists() {
         viewModelScope.launch {
             playlistInteractor.getPlaylists()

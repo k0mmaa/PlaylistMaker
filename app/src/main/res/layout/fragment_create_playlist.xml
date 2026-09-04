@@ -99,7 +99,7 @@
         android:layout_height="56dp"
         android:layout_marginBottom="32dp"
         android:enabled="false"
-        android:text="@string/Create"
+        android:text="@string/create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline" />
