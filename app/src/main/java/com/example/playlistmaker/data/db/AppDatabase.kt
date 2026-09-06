@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [
         TrackEntity::class,
         PlaylistEntity::class,

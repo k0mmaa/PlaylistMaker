@@ -1,6 +1,8 @@
 package com.example.playlistmaker.media.ui
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.media.domain.api.PlaylistInteractor
@@ -11,11 +13,14 @@ open class PlaylistViewModelCreate(
     private val interactor: PlaylistInteractor
 ) : ViewModel() {
 
+    private val _playlistCreated = MutableLiveData<Boolean>()
+    val playlistCreated: LiveData<Boolean> = _playlistCreated
+
     fun createPlaylist(name: String, description: String, imageUri: Uri?) {
         viewModelScope.launch {
             val imagePath = imageUri?.let { interactor.saveImageToInternalStorage(it) } ?: ""
             val playlist = Playlist(
-                id = 0,
+                id = null,
                 name = name,
                 description = description,
                 imagePath = imagePath,
@@ -24,6 +29,7 @@ open class PlaylistViewModelCreate(
                 additionTimestamp = System.currentTimeMillis()
             )
             interactor.addPlaylist(playlist)
+            _playlistCreated.postValue(true)
         }
     }
 }

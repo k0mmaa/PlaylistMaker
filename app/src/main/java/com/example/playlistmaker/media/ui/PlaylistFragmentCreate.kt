@@ -69,15 +69,18 @@ class PlaylistFragmentCreate : Fragment() {
             binding.buttonCreatePlaylist.isEnabled = text?.isNotBlank() == true
         }
 
+        viewModel.playlistCreated.observe(viewLifecycleOwner) { created ->
+            if (created) {
+                val name = binding.txtNamePlaylist.editText?.text.toString()
+                Toast.makeText(requireContext(), getString(R.string.playlist_created, name), Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }
+        }
+
         binding.buttonCreatePlaylist.setOnClickListener {
             val name = binding.txtNamePlaylist.editText?.text.toString()
             val description = binding.txtDescriptionPlaylist.editText?.text.toString()
-            
             viewModel.createPlaylist(name, description, imageUri)
-            
-            val toast = Toast.makeText(requireContext(), getString(R.string.playlist_created, name), Toast.LENGTH_SHORT)
-            toast.show()
-            findNavController().popBackStack()
         }
     }
 

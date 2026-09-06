@@ -169,4 +169,9 @@
     <style name="AlertDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="colorPrimary">@color/yp_blue</item>
     </style>
+
+    <style name="RoundedCorners8dp">
+        <item name="cornerSize">8dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
 </resources>

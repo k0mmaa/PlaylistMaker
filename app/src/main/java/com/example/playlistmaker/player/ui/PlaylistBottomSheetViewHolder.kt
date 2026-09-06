@@ -25,7 +25,11 @@ class PlaylistBottomSheetViewHolder (parent: ViewGroup): RecyclerView.ViewHolder
 
     fun bind(playlist: Playlist) {
         playlistNameTv.text = playlist.name
-        playlistCountTv.text = playlist.tracksCount.toString()
+        playlistCountTv.text = itemView.context.resources.getQuantityString(
+            R.plurals.track_count,
+            playlist.tracksCount,
+            playlist.tracksCount
+        )
 
         Glide.with(itemView.context)
             .load(File(playlist.imagePath))
