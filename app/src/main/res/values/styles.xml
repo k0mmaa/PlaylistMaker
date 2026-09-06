@@ -62,6 +62,12 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
 
+    <style name="ys_regular_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
     <style name="MainMenuButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/button_height_weighted</item>
@@ -143,10 +149,29 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="ys_regular_13_media_label">
+    <style name="ys_regular_13_media_label" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">?attr/textColorPrimary</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="PlaylistCreateButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="backgroundTint">@color/button_background_selector</item>
+        <item name="android:backgroundTint">@color/button_background_selector</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textAppearance">@style/ys_medium_14</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/button_corner_radius</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="colorPrimary">@color/yp_blue</item>
+    </style>
+
+    <style name="RoundedCorners8dp">
+        <item name="cornerSize">8dp</item>
+        <item name="cornerFamily">rounded</item>
     </style>
 </resources>

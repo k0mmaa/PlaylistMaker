@@ -1,0 +1,47 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_item_playlist_recycle"
+    android:layout_width="match_parent"
+    android:layout_height="61dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="13dp"
+    android:paddingEnd="12dp">
+
+
+
+    <ImageView
+        android:id="@+id/iv_playlist_cover_btsh"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="8dp"/>
+    <!-- углы срезать в коде через .transform(RoundedCorners(2)) радиус в пикселях-->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <!--android:paddingEnd="8dp"-->
+
+
+            <TextView
+                style="@style/ys_regular"
+                android:id="@+id/tv_playlist_name_btsh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                style="@style/ys_regular_11"
+                android:id="@+id/tv_playlist_track_count_btsh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+    </LinearLayout>
+
+</LinearLayout>

@@ -28,6 +28,7 @@
         <item name="placeholderSecondaryColor">@color/yp_white</item>
         <item name="placeholderAccentColor">@color/yp_blue</item>
 
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
     <!-- Тема для экрана настроек (белый/черный фон) -->
