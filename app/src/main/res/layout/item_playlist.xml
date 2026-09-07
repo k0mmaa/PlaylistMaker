@@ -1,0 +1,46 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_item_playlist_recycle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <!--обложка -->
+    <ImageView
+        android:id="@+id/iv_playlist_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop">
+    </ImageView>
+
+    <!-- имя плейлиста -->
+    <TextView
+        android:id="@+id/tv_playlist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@+id/iv_playlist_cover"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAppearance="@style/ys_regular_12"
+        android:layout_marginTop="4dp">
+    </TextView>
+    <!-- количество треков -->
+    <TextView
+        android:id="@+id/tv_playlist_track_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@+id/tv_playlist_name"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAppearance="@style/ys_regular_12"
+        >
+    </TextView>
+</androidx.constraintlayout.widget.ConstraintLayout>

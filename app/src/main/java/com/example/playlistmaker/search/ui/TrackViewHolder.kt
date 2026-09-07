@@ -17,10 +17,10 @@ import java.util.Locale
 class TrackViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false))
 {
-    private val trackNameTv: TextView = itemView.findViewById(R.id.trackName)
-    private val artistNameTv: TextView = itemView.findViewById(R.id.artistName)
-    private val trackTimeTv: TextView = itemView.findViewById(R.id.trackTime)
-    private val artworkUrl100Iv: ImageView = itemView.findViewById(R.id.artworkUrl100)
+    private val trackNameTv: TextView = itemView.findViewById(R.id.track_name)
+    private val artistNameTv: TextView = itemView.findViewById(R.id.artist_name)
+    private val trackTimeTv: TextView = itemView.findViewById(R.id.track_time)
+    private val artworkUrl100Iv: ImageView = itemView.findViewById(R.id.artwork_url_100)
 
     fun bind(song: Track){
         trackNameTv.text = song.trackName

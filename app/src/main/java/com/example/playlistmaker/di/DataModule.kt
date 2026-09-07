@@ -45,7 +45,18 @@ val dataModule = module {
         get<AppDatabase>().getTrackDao()
     }
     single {
+        get<AppDatabase>().getPlaylistDao()
+    }
+    single {
         TrackConverter()
+    }
+
+    single {
+        get<AppDatabase>().getPlaylistTrackDao()
+    }
+
+    single {
+        com.example.playlistmaker.media.data.converter.PlayListConverter()
     }
 
 }

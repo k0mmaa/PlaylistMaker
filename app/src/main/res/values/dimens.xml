@@ -24,7 +24,7 @@
     <dimen name="margin_medium">16dp</dimen>
 
     <!-- Button -->
-    <dimen name="button_corner_radius">16dp</dimen>
+    <dimen name="button_corner_radius">54dp</dimen>
     <dimen name="button_text_size">22sp</dimen>
 
     <dimen name="icon_padding">8dp</dimen>
