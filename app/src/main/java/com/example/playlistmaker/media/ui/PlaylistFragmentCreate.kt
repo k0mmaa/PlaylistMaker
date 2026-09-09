@@ -18,23 +18,20 @@ import com.example.playlistmaker.databinding.FragmentCreatePlaylistBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PlaylistFragmentCreate : Fragment() {
+open class PlaylistFragmentCreate : Fragment() {
 
-    private val viewModel by viewModel<PlaylistViewModelCreate>()
+    open val viewModel by viewModel<PlaylistViewModelCreate>()
 
-    private var imageUri: Uri? = null
-    private var isImageSelected = false
+    protected var imageUri: Uri? = null
+    protected var isImageSelected = false
     private var _binding: FragmentCreatePlaylistBinding? = null
-    private val binding get() = _binding!!
+    protected val binding get() = _binding!!
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
             imageUri = uri
-            // 1. показываем выбранное фото
             binding.backgroundImageView.setImageURI(uri)
-            // 2. Меняем масштаб на CENTER_CROP
             binding.backgroundImageView.scaleType = ImageView.ScaleType.CENTER_CROP
-            // 3. Меняем visibility на ImageView в true
             isImageSelected = true
         }
     }
@@ -52,15 +49,16 @@ class PlaylistFragmentCreate : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbarCreatePlaylist.setNavigationOnClickListener {
-            showExitConfirmationDialog()
+            handleBackPressed()
         }
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                showExitConfirmationDialog()
+                handleBackPressed()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        
         binding.coverCard.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
@@ -71,20 +69,18 @@ class PlaylistFragmentCreate : Fragment() {
 
         viewModel.playlistCreated.observe(viewLifecycleOwner) { created ->
             if (created) {
-                val name = binding.txtNamePlaylist.editText?.text.toString()
-                Toast.makeText(requireContext(), getString(R.string.playlist_created, name), Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
+                onPlaylistSaved()
             }
         }
 
         binding.buttonCreatePlaylist.setOnClickListener {
             val name = binding.txtNamePlaylist.editText?.text.toString()
             val description = binding.txtDescriptionPlaylist.editText?.text.toString()
-            viewModel.createPlaylist(name, description, imageUri)
+            viewModel.savePlaylist(name, description, imageUri)
         }
     }
 
-    private fun showExitConfirmationDialog() {
+    protected open fun handleBackPressed() {
         val name = binding.txtNamePlaylist.editText?.text.toString()
         val description = binding.txtDescriptionPlaylist.editText?.text.toString()
         
@@ -100,6 +96,12 @@ class PlaylistFragmentCreate : Fragment() {
         } else {
             findNavController().popBackStack()
         }
+    }
+
+    protected open fun onPlaylistSaved() {
+        val name = binding.txtNamePlaylist.editText?.text.toString()
+        Toast.makeText(requireContext(), getString(R.string.playlist_created, name), Toast.LENGTH_SHORT).show()
+        findNavController().popBackStack()
     }
 
     override fun onDestroyView() {

@@ -51,4 +51,20 @@ class TrackConverter {
             songUrl = track.previewUrl
         )
     }
+
+    fun map(entity: PlaylistTrackEntity): Track {
+        return Track(
+            trackId = entity.id,
+            trackName = entity.songName,
+            artistName = entity.artistName,
+            trackTimeMillis = entity.trackTimeMillisValue,
+            artworkUrl100 = entity.highResArtworkUrl,
+            collectionName = entity.collectionNameValue,
+            releaseDate = entity.releaseDateValue,
+            primaryGenreName = entity.primaryGenreNameValue,
+            country = entity.countryNameValue,
+            previewUrl = entity.songUrl,
+            isFavorite = false
+        )
+    }
 }

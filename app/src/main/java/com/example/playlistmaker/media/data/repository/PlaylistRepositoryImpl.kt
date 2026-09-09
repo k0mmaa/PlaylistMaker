@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Environment
 import com.example.playlistmaker.data.db.PlaylistDao
 import com.example.playlistmaker.data.db.PlaylistTrackDao
+import com.example.playlistmaker.data.db.PlaylistTrackEntity
 import com.example.playlistmaker.media.data.converter.PlayListConverter
 import com.example.playlistmaker.media.data.converter.TrackConverter
 import com.example.playlistmaker.media.domain.api.PlaylistRepository
@@ -60,5 +61,53 @@ class PlaylistRepositoryImpl(
             tracksCount = playlist.trackIds.size + 1
         )
         playlistDao.insertNewPlaylist(converter.map(updatedPlaylist))
+    }
+
+    override fun getPlaylistById(id: Int): Flow<Playlist> {
+        return playlistDao.getPlaylistById(id).map { entity ->
+            converter.map(entity)
+        }
+    }
+
+    override fun getTracksByIds(ids: List<Long>): Flow<List<Track>> {
+        return playlistTrackDao.getTracks().map { entities: List<PlaylistTrackEntity> ->
+            val trackMap = entities.associateBy { it.id }
+            ids.mapNotNull { id ->
+                trackMap[id]?.let { trackConverter.map(it) }
+            }.reversed()
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun removeTrackFromPlaylist(playlistId: Int, trackId: Long) = withContext(Dispatchers.IO) {
+        val playlistEntity = playlistDao.getPlaylist(playlistId)
+        val updatedTrackIds = playlistEntity.trackIds.filter { it != trackId }
+        val updatedPlaylist = playlistEntity.copy(
+            trackIds = updatedTrackIds,
+            tracksCount = updatedTrackIds.size
+        )
+        playlistDao.insertNewPlaylist(updatedPlaylist)
+        
+        val allPlaylists = playlistDao.getAllPlaylists()
+        val isUsed = allPlaylists.any { it.trackIds.contains(trackId) }
+        
+        if (!isUsed) {
+            playlistTrackDao.deleteTrackById(trackId)
+        }
+    }
+
+    override suspend fun deletePlaylist(playlist: Playlist) = withContext(Dispatchers.IO) {
+        playlistDao.deletePlaylistById(playlist.id!!)
+        
+        val allPlaylists = playlistDao.getAllPlaylists()
+        playlist.trackIds.forEach { trackId ->
+            val isUsed = allPlaylists.any { it.trackIds.contains(trackId) }
+            if (!isUsed) {
+                playlistTrackDao.deleteTrackById(trackId)
+            }
+        }
+    }
+
+    override suspend fun updatePlaylist(playlist: Playlist) {
+        playlistDao.insertNewPlaylist(converter.map(playlist))
     }
 }

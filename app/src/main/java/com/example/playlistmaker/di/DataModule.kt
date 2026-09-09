@@ -34,7 +34,6 @@ val dataModule = module {
         RetrofitNetworkClient(get(), androidContext())
     }
 
-    //создаю базу данных
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
             .fallbackToDestructiveMigration()

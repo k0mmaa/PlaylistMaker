@@ -45,9 +45,11 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        trackAdapter = TrackAdapter(emptyList()) { track ->
-            onTrackClick(track)
-        }
+        trackAdapter = TrackAdapter(
+            onClick = { track ->
+                onTrackClick(track)
+            }
+        )
         binding.favoritesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = trackAdapter

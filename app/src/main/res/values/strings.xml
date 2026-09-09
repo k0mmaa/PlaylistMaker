@@ -12,23 +12,19 @@
     <string name="in_progress">Раздел в разработке</string>
     <string name="back">Вернуться в Главное меню</string>
 
-    <!-- Email Support-->
     <string name="email">dmitri18@yandex.ru</string>
     <string name="subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="send_email">Отправить письмо</string>
 
-    <!-- URL-address -->
     <string name="url_address_curs">https://practicum.yandex.ru/android-developer/?from=catalog</string>
 
-    <!-- User agreement -->
     <string name="agreement_url">https://yandex.ru/legal/practicum_offer/ru/</string>
     <string name="read_agreemen">Открыть пользовательской соглашение</string>
     <string name="network_error">Проблемы со связью \n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="nothing_found">Ничего не нашлось</string>
     <string name="refresh">Обновить</string>
 
-    <!--SearchActivity -->
     <string name="you_searched">Вы искали</string>
     <string name="clean_history">Очистить историю</string>
     <string name="time_lable">Длительность</string>
@@ -38,10 +34,8 @@
     <string name="genre_name">Жанр</string>
     <string name="country_name">Страна</string>
 
-    <!--Player Activity -->
     <string name="zero_time">0:00</string>
 
-    <!-- MediaActivity -->
     <string name="favorite_tracks">Избранные треки</string>
     <string name="playlists">Плейлисты</string>
     <string name="empty_favorite_tracks">Ваша медиатека пуста</string>
@@ -60,5 +54,17 @@
     <string name="add_to_playlist">Добавить в плейлист</string>
     <string name="added_to_playlist">Добавлено в плейлист %s</string>
     <string name="track_already_in_playlist">Трек уже добавлен в плейлист %s</string>
+    <string name="delete_track_message">Хотите удалить трек?</string>
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="empty_playlist_sharing">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="share">Поделиться</string>
+    <string name="edit_info">Редактировать информацию</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="delete_playlist_message">Хотите удалить плейлист \"%s\"?</string>
+    <string name="edit">Редактировать</string>
+    <string name="save">Сохранить</string>
+    <string name="delete">Удалить</string>
+    <string name="no_tracks_in_playlist">в этом плейлисте нет треков</string>
 
 </resources>

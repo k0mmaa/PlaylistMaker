@@ -27,7 +27,6 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Подписываемся на состояние темы из ViewModel
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             binding.darkModeSwitch.isChecked = state.themeSettings.isDarkTheme
         }

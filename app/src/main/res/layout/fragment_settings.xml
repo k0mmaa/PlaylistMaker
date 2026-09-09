@@ -15,7 +15,6 @@
         android:text="@string/settings"
         style="@style/title" />
 
-    <!-- Dark mode setting -->
     <LinearLayout
         android:id="@+id/lists_dark_mode"
         style="@style/SettingsItem">
@@ -34,7 +33,6 @@
 
     </LinearLayout>
 
-    <!-- Share app setting -->
     <LinearLayout
         android:id="@+id/lists_shared_app"
         style="@style/SettingsItem">
@@ -51,7 +49,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Helpdesk setting -->
     <LinearLayout
         android:id="@+id/lists_helpdesk"
         style="@style/SettingsItem">
@@ -75,7 +72,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- User agreement setting -->
     <LinearLayout
         android:id="@+id/lists_user_agr"
         style="@style/SettingsItem">

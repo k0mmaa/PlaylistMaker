@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlaylistTrackDao {
@@ -19,4 +20,7 @@ interface PlaylistTrackDao {
 
     @Query("SELECT id FROM playlistTrack")
     suspend fun getTracksIds(): List<Long>
+
+    @Query("SELECT * FROM playlistTrack")
+    fun getTracks(): Flow<List<PlaylistTrackEntity>>
 }

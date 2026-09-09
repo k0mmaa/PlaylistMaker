@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Цвета из Figma -->
     <color name="yp_blue">#3772E7</color>
     <color name="yp_white">#FFFFFF</color>
     <color name="yp_black">#1A1B22</color>
@@ -9,9 +8,4 @@
     <color name="yp_yellow">#FCD452</color>
     <color name="playerButtonBackground">#401A1B22</color>
     <color name="yp_red">#FF0000</color>
-
-
 </resources>
-
-
-

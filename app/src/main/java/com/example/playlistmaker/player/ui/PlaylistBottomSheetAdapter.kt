@@ -20,7 +20,6 @@ class PlaylistBottomSheetAdapter (
         val playlist = playlists[position]
         holder.bind(playlist)
 
-        //слушатель нажатия на playlist
         holder.itemView.setOnClickListener {
             onClick(playlist)
         }
