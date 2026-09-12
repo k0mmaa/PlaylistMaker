@@ -73,7 +73,7 @@ class PlaylistRepositoryImpl(
         return playlistTrackDao.getTracks().map { entities: List<PlaylistTrackEntity> ->
             val trackMap = entities.associateBy { it.id }
             ids.mapNotNull { id ->
-                trackMap[id]?.let { trackConverter.map(it) }
+                trackMap[id]?.let { trackConverter.map(it, isFavorite = false) }
             }.reversed()
         }.flowOn(Dispatchers.IO)
     }

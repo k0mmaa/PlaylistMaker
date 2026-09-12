@@ -35,7 +35,7 @@ class FavoritesRepositoryImpl(
         return trackDao.getTracks()
             .map { entities ->
                 entities.map { entity ->
-                    converter.map(entity)
+                    converter.map(entity, isFavorite = true)
                 }
             }
             .flowOn(Dispatchers.IO)

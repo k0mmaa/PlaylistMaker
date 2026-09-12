@@ -21,7 +21,7 @@ class TrackConverter {
         )
     }
 
-    fun map(entity: TrackEntity): Track {
+    fun map(entity: TrackEntity, isFavorite: Boolean): Track {
         return Track(
             trackId = entity.id,
             trackName = entity.songName,
@@ -33,7 +33,7 @@ class TrackConverter {
             primaryGenreName = entity.primaryGenreNameValue,
             country = entity.countryNameValue,
             previewUrl = entity.songUrl,
-            isFavorite = true
+            isFavorite = isFavorite
         )
     }
 
@@ -52,7 +52,7 @@ class TrackConverter {
         )
     }
 
-    fun map(entity: PlaylistTrackEntity): Track {
+    fun map(entity: PlaylistTrackEntity, isFavorite: Boolean): Track {
         return Track(
             trackId = entity.id,
             trackName = entity.songName,
@@ -64,7 +64,7 @@ class TrackConverter {
             primaryGenreName = entity.primaryGenreNameValue,
             country = entity.countryNameValue,
             previewUrl = entity.songUrl,
-            isFavorite = false
+            isFavorite = isFavorite
         )
     }
 }

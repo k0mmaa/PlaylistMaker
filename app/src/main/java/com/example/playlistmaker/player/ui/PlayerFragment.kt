@@ -86,7 +86,9 @@ class PlayerFragment : Fragment() {
         }
 
         binding.createPlaylistButtonBottomSheet.setOnClickListener {
-            findNavController().navigate(R.id.action_playerFragment_to_fragmentCreatePlaylist)
+            findNavController().navigate(
+                PlayerFragmentDirections.actionPlayerFragmentToFragmentCreatePlaylist()
+            )
         }
 
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {

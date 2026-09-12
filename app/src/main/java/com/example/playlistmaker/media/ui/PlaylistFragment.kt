@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
-import com.example.playlistmaker.player.ui.PlayerFragment
 import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -53,6 +51,8 @@ class PlaylistFragment : Fragment() {
         initRecyclerView()
         initMenuBottomSheet()
 
+        viewModel.loadPlaylistDetails()
+
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -79,8 +79,7 @@ class PlaylistFragment : Fragment() {
             val currentState = viewModel.state.value
             if (currentState != null) {
                 findNavController().navigate(
-                    R.id.action_playlistFragment_to_playlistFragmentEdit,
-                    bundleOf("playlist" to currentState.playlist)
+                    PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistFragmentEdit(currentState.playlist)
                 )
             }
         }
@@ -121,8 +120,7 @@ class PlaylistFragment : Fragment() {
             onClick = { track ->
                 if (viewModel.clickDebounce()) {
                     findNavController().navigate(
-                        R.id.action_playlistFragment_to_playerFragment,
-                        bundleOf(PlayerFragment.ARGS_TRACK to track)
+                        PlaylistFragmentDirections.actionPlaylistFragmentToPlayerFragment(track)
                     )
                 }
             },

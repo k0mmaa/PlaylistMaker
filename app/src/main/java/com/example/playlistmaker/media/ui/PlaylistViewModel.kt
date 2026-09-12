@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PlaylistViewModel(
@@ -40,11 +41,7 @@ class PlaylistViewModel(
     private val _navigateBack = SingleLiveEvent<Unit>()
     val navigateBack: LiveData<Unit> = _navigateBack
 
-    init {
-        loadPlaylistDetails()
-    }
-
-    private fun loadPlaylistDetails() {
+    fun loadPlaylistDetails() {
         viewModelScope.launch {
             playlistInteractor.getPlaylistById(playlistId)
                 .flatMapLatest { playlist ->
@@ -60,7 +57,7 @@ class PlaylistViewModel(
 
     private fun calculateTotalDuration(tracks: List<Track>): Int {
         val totalMillis = tracks.sumOf { it.trackTimeMillis }
-        return SimpleDateFormat("mm", Locale.getDefault()).format(totalMillis).toInt()
+        return TimeUnit.MILLISECONDS.toMinutes(totalMillis).toInt()
     }
 
     fun removeTrack(trackId: Long) {

@@ -1,12 +1,10 @@
 package com.example.playlistmaker.media.ui
 
-import com.example.playlistmaker.R
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,7 +31,9 @@ class PlaylistsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.createPlaylistButton.setOnClickListener {
-            findNavController().navigate(R.id.action_mediaFragment_to_fragmentCreatePlaylist)
+            findNavController().navigate(
+                MediaFragmentDirections.actionMediaFragmentToFragmentCreatePlaylist()
+            )
         }
         initRecyclerView()
         observeState()
@@ -48,8 +48,7 @@ class PlaylistsFragment : Fragment() {
     private fun initRecyclerView() {
         playlistAdapter = PlaylistAdapter(emptyList()) { playlist ->
             findNavController().navigate(
-                R.id.action_mediaFragment_to_playlistFragment,
-                bundleOf("playlistId" to playlist.id)
+                MediaFragmentDirections.actionMediaFragmentToPlaylistFragment(playlist.id ?: 0)
             )
         }
         binding.playlistsRecyclerView.apply {
