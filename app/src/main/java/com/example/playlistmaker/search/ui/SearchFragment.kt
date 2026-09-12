@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -52,7 +51,6 @@ class SearchFragment : Fragment() {
             binding.inputStrings.setText(savedInstanceState.getString(KEY_NAME))
         }
 
-        // Устанавливаем начальное состояние крестика
         binding.searchInputLayout.isEndIconVisible = !binding.inputStrings.text.isNullOrEmpty()
 
         binding.inputStrings.addTextChangedListener(
@@ -104,15 +102,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        trackAdapter = TrackAdapter(mutableListOf()) { track ->
-            if (viewModel.clickDebounce()) {
-                viewModel.addTrackToHistory(track)
-                findNavController().navigate(
-                    R.id.action_searchFragment_to_playerFragment,
-                    bundleOf(PlayerFragment.ARGS_TRACK to track)
-                )
+        trackAdapter = TrackAdapter(
+            onClick = { track ->
+                if (viewModel.clickDebounce()) {
+                    viewModel.addTrackToHistory(track)
+                    findNavController().navigate(
+                        SearchFragmentDirections.actionSearchFragmentToPlayerFragment(track)
+                    )
+                }
             }
-        }
+        )
         binding.trackRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.trackRecyclerView.adapter = trackAdapter
     }

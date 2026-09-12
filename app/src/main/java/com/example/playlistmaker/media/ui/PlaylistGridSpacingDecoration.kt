@@ -17,20 +17,17 @@ class PlaylistGridSpacingDecoration(
         val spanIndex = layoutParams.spanIndex
         val spanCount = (parent.layoutManager as GridLayoutManager).spanCount
 
-        // Горизонтальные отступы (между колонками)
         val halfSpacing = horizontalSpacingPx / 2
         when (spanIndex) {
-            0 -> outRect.right = halfSpacing  // Левая колонка
-            spanCount - 1 -> outRect.left = halfSpacing  // Правая колонка
+            0 -> outRect.right = halfSpacing
+            spanCount - 1 -> outRect.left = halfSpacing
         }
 
 
-        // Вертикальные отступы
         val position = parent.getChildAdapterPosition(view)
         val isFirstRow = position < spanCount
         outRect.top = if (isFirstRow) 0 else verticalSpacingPx
 
-        // Опционально: нижний отступ для последней строки
         val itemCount = state.itemCount
 
     }

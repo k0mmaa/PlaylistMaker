@@ -11,23 +11,25 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PlaylistDao {
 
-        //метод @Insert для добавления плейлиста
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun insertNewPlaylist(playlistEntity: PlaylistEntity)
 
-        //метод @Delete для удаления плейлиста
         @Delete()
         suspend fun deletePlaylistEntity(playlistEntity: PlaylistEntity)
 
-        // Удаление плейлиста из таблицы  по ID
         @Query("DELETE FROM Playlist WHERE id = :playlistId")
         suspend fun deletePlaylistById(playlistId: Int)
 
-        //метод @Query для получения плейлиста по ID
+        @Query("SELECT * FROM Playlist WHERE id = :id")
+        suspend fun getPlaylist(id: Int): PlaylistEntity
+
+        @Query("SELECT * FROM Playlist")
+        suspend fun getAllPlaylists(): List<PlaylistEntity>
+
+        @Query("SELECT * FROM Playlist WHERE id = :id")
+        fun getPlaylistById(id: Int): Flow<PlaylistEntity>
+
         @Query("SELECT * FROM Playlist ORDER BY additionTimestamp DESC")
         fun getPlaylists(): Flow<List<PlaylistEntity>>
-
-
-
 
     }

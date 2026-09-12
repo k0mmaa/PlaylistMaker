@@ -18,5 +18,5 @@ data class PlaylistEntity(
     val trackIds: List<Long>,
     @ColumnInfo(name="tracks_count")
     val tracksCount: Int,
-    val additionTimestamp: Long // время добавления в избранное, в формате UNIX
+    val additionTimestamp: Long
     )

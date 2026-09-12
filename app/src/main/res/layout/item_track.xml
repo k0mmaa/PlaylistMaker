@@ -15,14 +15,12 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"/>
-    <!-- углы срезать в коде через .transform(RoundedCorners(2)) радиус в пикселях-->
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
-        <!--android:paddingEnd="8dp"-->
 
 
         <TextView
@@ -33,7 +31,7 @@
             android:maxLines="1"
             android:ellipsize="end" />
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -42,36 +40,37 @@
                 android:id="@+id/artist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@id/track_time"
                 android:maxLines="1"
-                android:ellipsize="end" />
+                android:ellipsize="end"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/track_time"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
                 style="@style/ys_regular_11"
                 android:id="@+id/track_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:drawablePadding="5dp"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                app:drawableStartCompat="@drawable/ic_dot" />
-        </RelativeLayout>
+                app:drawableStartCompat="@drawable/ic_dot"
+                app:layout_constraintStart_toEndOf="@id/artist_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/liner_icon_agreement"
-        style="@style/SettingsIconContainer">
-        <ImageView
-            style="@style/SettingsIcon"
-            android:src="@drawable/ic_arrow_forward_24"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/track_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_arrow_forward_24"
+        app:tint="?attr/settingsIconTint" />
 </LinearLayout>

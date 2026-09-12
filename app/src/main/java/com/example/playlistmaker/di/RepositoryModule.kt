@@ -26,7 +26,6 @@ val repositoryModule = module {
         SearchHistoryRepositoryImpl(get(),get (),get ())
     }
 
-    // Изменено на factory, чтобы каждый раз создавался новый плеер
     factory<AudioPlayerRepository> {
         AudioPlayerRepositoryImpl()
     }

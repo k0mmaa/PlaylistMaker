@@ -10,13 +10,13 @@ import com.example.playlistmaker.media.domain.models.Playlist
 import kotlinx.coroutines.launch
 
 open class PlaylistViewModelCreate(
-    private val interactor: PlaylistInteractor
+    protected val interactor: PlaylistInteractor
 ) : ViewModel() {
 
-    private val _playlistCreated = MutableLiveData<Boolean>()
+    protected val _playlistCreated = MutableLiveData<Boolean>()
     val playlistCreated: LiveData<Boolean> = _playlistCreated
 
-    fun createPlaylist(name: String, description: String, imageUri: Uri?) {
+    open fun savePlaylist(name: String, description: String, imageUri: Uri?) {
         viewModelScope.launch {
             val imagePath = imageUri?.let { interactor.saveImageToInternalStorage(it) } ?: ""
             val playlist = Playlist(

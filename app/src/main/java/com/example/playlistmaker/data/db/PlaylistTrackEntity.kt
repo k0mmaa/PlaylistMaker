@@ -8,19 +8,19 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "playlistTrack")
 data class PlaylistTrackEntity (
         @PrimaryKey(autoGenerate = false)
-        val id: Long, //идентификатор трека (первичный ключ),
+        val id: Long,
         @ColumnInfo(name="cover_url")
-        val highResArtworkUrl: String,//ссылка на обложку для элемента списка и плеера,
-        val songName: String, //название трека,
-        val artistName: String, //имя исполнителя,
+        val highResArtworkUrl: String,
+        val songName: String,
+        val artistName: String,
         @ColumnInfo(name = "album")
-        val collectionNameValue: String, //название альбома (если есть),
-        val releaseDateValue: String, //год релиза трека,
+        val collectionNameValue: String,
+        val releaseDateValue: String,
         @ColumnInfo(name="genre")
-        val primaryGenreNameValue: String, //жанр трека,
+        val primaryGenreNameValue: String,
         @ColumnInfo(name = "country")
-        val countryNameValue: String, //страна исполнителя,
+        val countryNameValue: String,
         @ColumnInfo(name = "duration")
-        val trackTimeMillisValue: Long, //продолжительность трека в формате mm:ss,
-        val songUrl: String?, //ссылка на файл для воспроизведения.
+        val trackTimeMillisValue: Long,
+        val songUrl: String?,
     )

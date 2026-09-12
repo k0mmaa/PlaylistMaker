@@ -7,7 +7,6 @@
 
 
 
-    <!--обложка -->
     <ImageView
         android:id="@+id/iv_playlist_cover"
         android:layout_width="0dp"
@@ -19,7 +18,6 @@
         android:scaleType="centerCrop">
     </ImageView>
 
-    <!-- имя плейлиста -->
     <TextView
         android:id="@+id/tv_playlist_name"
         android:layout_width="wrap_content"
@@ -31,7 +29,6 @@
         android:textAppearance="@style/ys_regular_12"
         android:layout_marginTop="4dp">
     </TextView>
-    <!-- количество треков -->
     <TextView
         android:id="@+id/tv_playlist_track_count"
         android:layout_width="wrap_content"

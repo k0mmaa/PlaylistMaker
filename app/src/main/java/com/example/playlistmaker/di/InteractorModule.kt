@@ -21,7 +21,6 @@ val interactorModule = module {
         TracksInteractorImpl(get())
     }
 
-    // Изменено на factory, интерактор плеера должен создаваться заново для каждого трека
     factory<AudioPlayerInteractor> {
         AudioPlayerInteractorImpl(get())
     }

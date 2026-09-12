@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavoritesBinding
 import com.example.playlistmaker.player.ui.PlayerFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,9 +43,11 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        trackAdapter = TrackAdapter(emptyList()) { track ->
-            onTrackClick(track)
-        }
+        trackAdapter = TrackAdapter(
+            onClick = { track ->
+                onTrackClick(track)
+            }
+        )
         binding.favoritesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = trackAdapter
@@ -57,8 +57,7 @@ class FavoritesFragment : Fragment() {
     private fun onTrackClick(track: Track) {
         if (viewModel.clickDebounce()) {
             findNavController().navigate(
-                R.id.action_mediaFragment_to_playerFragment,
-                bundleOf(PlayerFragment.ARGS_TRACK to track)
+                MediaFragmentDirections.actionMediaFragmentToPlayerFragment(track)
             )
         }
     }

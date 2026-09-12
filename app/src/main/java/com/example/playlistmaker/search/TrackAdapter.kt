@@ -17,7 +17,6 @@ class TrackAdapter (
         val track = trackList[position]
         holder.bind(track)
 
-        //слушатель нажатия на трек
         holder.itemView.setOnClickListener {
             onClick(track)
         }
